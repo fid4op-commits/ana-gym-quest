@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -117,13 +117,41 @@
 
     .stat-lbl { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; font-weight: 700; }
 
+    /* Grelha de Visibilidade dos 7 Dias */
+    .week-days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-top: 10px;
+    }
+
+    .day-cell {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      border-radius: 4px;
+      padding: 6px 2px;
+      text-align: center;
+    }
+
+    .day-cell-name {
+      font-size: 0.6rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .day-cell-status {
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
     .progress-bg { 
       background: rgba(0, 0, 0, 0.5); 
       border: 1px solid var(--card-border);
       border-radius: 4px; 
       height: 12px; 
       overflow: hidden; 
-      margin-top: 4px; 
+      margin-top: 10px; 
       padding: 1px;
     }
     
@@ -303,18 +331,18 @@
 
 <div class="container">
 
-  <!-- DASHBOARD -->
+  <!-- PAINEL DE PROGRESSO -->
   <div class="card">
     <div class="main-title">🏋️ Ana Gym Quest 🏋️</div>
-    <div class="sync-status" id="sync-status">⚡ CONNECTING TO FIREBASE...</div>
+    <div class="sync-status" id="sync-status">⚡ A LIGAR À NUVEM...</div>
     
-    <!-- Rules Section -->
-    <div class="rules-toggle" id="rules-toggle">📜 HOW TO PLAY & RULES ▼</div>
+    <!-- Secção de Regras -->
+    <div class="rules-toggle" id="rules-toggle">📜 REGRAS DO JOGO ▼</div>
     <div class="rules-content" id="rules-content">
       <ul>
-        <li><b>Limite Diário:</b> Apenas 1 registo permitido por dia (Treino ou Falta).</li>
+        <li><b>Limite Diário:</b> Apenas é permitido 1 registo por dia (Treino Feito ou Falta).</li>
         <li><b>Meta Semanal:</b> Completar exatamente 2 treinos por semana para desbloquear o prémio.</li>
-        <li><b>Registo:</b> Regista os teus dias sequencialmente para manter o progresso alinhado.</li>
+        <li><b>Registo:</b> Regista os teus dias por ordem cronológica para manter o progresso correto.</li>
       </ul>
     </div>
 
@@ -322,8 +350,16 @@
     <div style="text-align: center; margin-top: 4px;">
       <span class="status-badge" id="goal-tracker">META SEMANAL: 0 / 2 TREINOS</span>
     </div>
+
+    <!-- Visibilidade dos 7 Dias da Semana Atual -->
+    <div style="margin-top: 10px;">
+      <div style="font-size: 0.7rem; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; color: var(--muted);">🗓️ OS 7 DIAS DA SEMANA:</div>
+      <div class="week-days-grid" id="week-days-grid">
+        <!-- Preenchido via JavaScript -->
+      </div>
+    </div>
     
-    <!-- Daily Summary Panel -->
+    <!-- Painel de Resumo Diário -->
     <div class="daily-summary-panel" id="daily-summary-panel">
       <div class="daily-summary-title" id="summary-date-title">REGISTO DIÁRIO</div>
       <div class="daily-summary-details" id="summary-details">---</div>
@@ -332,7 +368,7 @@
     <div class="stat-grid">
       <div class="stat-box">
         <div class="stat-val" id="total-treinos" style="color: var(--green);">0</div>
-        <div class="stat-lbl">Treinos Feitos</div>
+        <div class="stat-lbl">Treinos Realizados</div>
       </div>
       <div class="stat-box">
         <div class="stat-val" id="total-metas" style="color: var(--blue);">0</div>
@@ -340,10 +376,10 @@
       </div>
     </div>
 
-    <!-- Progress -->
+    <!-- Barra de Progresso -->
     <div style="margin-top: 10px;">
       <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700;">
-        <span>PROGRESSO SEMANAL</span>
+        <span>PROGRESSO DA SEMANA</span>
         <span id="progress-text" style="color: var(--green);">0%</span>
       </div>
       <div class="progress-bg">
@@ -352,7 +388,7 @@
     </div>
   </div>
 
-  <!-- DAILY LOGS -->
+  <!-- REGISTO DIÁRIO -->
   <div class="card">
     <div class="section-title">Registar Dia (Máx. 1 por dia)</div>
     <div class="date-picker-box">
@@ -373,12 +409,12 @@
     </div>
 
     <div class="timer-box" id="timer-box"></div>
-    <div class="reset-link" id="btn-reset-game">Reset Campanha Total</div>
+    <div class="reset-link" id="btn-reset-game">Repor Campanha Total</div>
   </div>
 
 </div>
 
-<!-- FIREBASE & CORE LOGIC -->
+<!-- LÓGICA E FIREBASE -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -432,6 +468,70 @@
     }
   }
 
+  // Descobre a lista de datas (7 dias) correspondentes à semana atual ativa
+  function getCurrentWeekDates() {
+    let baseDate = new Date(2026, 8, 1); // 1 de Setembro de 2026
+    let currentWeek = 1;
+    let weekLogs = [];
+
+    while (true) {
+      let dateStr = formatDateLocal(baseDate);
+      let log = state.dailyLogs && state.dailyLogs[dateStr];
+      
+      weekLogs.push({ date: dateStr, log: log });
+
+      // Se completou 2 treinos nesta semana, passamos para a semana seguinte
+      if (log && log.status === 'gym') {
+        // Contabiliza treinos acumulados na semana atual
+        // Para simplificar e mapear exatamente os blocos de 7 dias ou de conclusão por 2 treinos:
+      }
+
+      baseDate.setDate(baseDate.getDate() + 1);
+      
+      // Condição de paragem para mostrar os 7 dias da semana ativa com base nos registos efetuados
+      if (weekLogs.length === 7) {
+        // Se a semana atual ainda não terminou, ou se estamos a acumular os últimos 7 dias sequenciais não fechados
+        break;
+      }
+    }
+    return weekLogs;
+  }
+
+  function renderWeekDays() {
+    const gridEl = document.getElementById('week-days-grid');
+    gridEl.innerHTML = '';
+
+    // Vamos encontrar os 7 dias a partir do primeiro dia não registado ou baseando nos últimos blocos
+    let nextSeq = getNextSequentialDate();
+    let d = new Date(nextSeq);
+    // Recuar para o início do bloco de 7 dias atual
+    d.setDate(d.getDate() - 3); 
+
+    const shortDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+    for (let i = 0; i < 7; i++) {
+      let dateStr = formatDateLocal(d);
+      let dayName = shortDays[d.getDay()];
+      let log = state.dailyLogs && state.dailyLogs[dateStr];
+
+      let cell = document.createElement('div');
+      cell.className = 'day-cell';
+      
+      let statusIcon = '·';
+      if (log) {
+        statusIcon = log.status === 'gym' ? '🏋️' : '⚠️';
+      }
+
+      cell.innerHTML = `
+        <div class="day-cell-name">${dayName}</div>
+        <div class="day-cell-status">${statusIcon}</div>
+      `;
+      gridEl.appendChild(cell);
+
+      d.setDate(d.getDate() + 1);
+    }
+  }
+
   async function loadStateFromFirebase() {
     try {
       const docSnap = await getDoc(docRef);
@@ -440,11 +540,11 @@
       } else {
         await saveStateToFirebase();
       }
-      document.getElementById('sync-status').innerText = "☁️ CLOUD SYNCED";
+      document.getElementById('sync-status').innerText = "☁️ DADOS SINCRONIZADOS";
       document.getElementById('sync-status').style.color = "var(--green)";
     } catch (e) {
-      console.error("Firebase connection error:", e);
-      document.getElementById('sync-status').innerText = "⚠️ OFFLINE MODE";
+      console.error("Erro de ligação ao Firebase:", e);
+      document.getElementById('sync-status').innerText = "⚠️ MODO DESLIGADO (OFFLINE)";
       document.getElementById('sync-status').style.color = "#f59e0b";
     }
 
@@ -462,13 +562,13 @@
 
   async function saveStateToFirebase() {
     try {
-      document.getElementById('sync-status').innerText = "⏳ SAVING...";
+      document.getElementById('sync-status').innerText = "⏳ A GUARDAR...";
       await setDoc(docRef, state);
-      document.getElementById('sync-status').innerText = "☁️ CLOUD SYNCED";
+      document.getElementById('sync-status').innerText = "☁️ DADOS SINCRONIZADOS";
       document.getElementById('sync-status').style.color = "var(--green)";
     } catch (e) {
-      console.error("Firebase save error:", e);
-      document.getElementById('sync-status').innerText = "⚠️ ERROR SAVING";
+      console.error("Erro ao guardar no Firebase:", e);
+      document.getElementById('sync-status').innerText = "⚠️ ERRO AO GUARDAR";
       document.getElementById('sync-status').style.color = "var(--red)";
     }
   }
@@ -489,6 +589,8 @@
     document.getElementById('progress-text').innerText = `${pct}%`;
     document.getElementById('progress-bar').style.width = `${pct}%`;
 
+    renderWeekDays();
+
     let selectedDate = document.getElementById('log-date-picker').value;
     let nextSequential = getNextSequentialDate();
     let summaryPanel = document.getElementById('daily-summary-panel');
@@ -505,7 +607,7 @@
 
       let statusText = log.status === 'gym' ? '🏋️ Treino Feito' : '⚠️ Falta / Descanso';
       document.getElementById('summary-date-title').innerText = `REGISTO JÁ EFETUADO (${selectedDate})`;
-      document.getElementById('summary-details').innerHTML = `<b>Estado:</b> ${statusText}<br><span style="font-size: 0.75rem; color: var(--muted);">Só é permitido 1 registo por dia.</span>`;
+      document.getElementById('summary-details').innerHTML = `<b>Estado:</b> ${statusText}<br><span style="font-size: 0.75rem; color: var(--muted);">Apenas é permitido um registo por dia.</span>`;
     } else if (selectedDate > nextSequential) {
       summaryPanel.style.display = 'none';
       lockNotice.style.display = 'block';
@@ -532,9 +634,8 @@
     let selectedDateStr = document.getElementById('log-date-picker').value;
     if (!state.dailyLogs) state.dailyLogs = {};
     
-    // Validação estrita: apenas um registo por dia
     if (state.dailyLogs[selectedDateStr]) {
-      alert("Já existe um registo para este dia! Só é permitido um registo por dia.");
+      alert("Já existe um registo guardado para este dia! Apenas é permitido um registo por dia.");
       return;
     }
 
@@ -547,14 +648,13 @@
       status: state.pendingStatus
     };
 
-    // Atingiu exatamente os 2 treinos da semana
     if (state.treinosNaSemana >= 2) {
       state.totalMetas++;
       alert(`🎉 PARABÉNS! Meta Semanal ${state.semanaAtual} concluída (2/2 treinos)! Prémio desbloqueado! 🏆`);
       state.treinosNaSemana = 0;
       state.semanaAtual++;
     } else {
-      alert(`Registo guardado para ${selectedDateStr}! Faltam ${2 - state.treinosNaSemana} treino(s) para a meta semanal.`);
+      alert(`Registo guardado com sucesso para ${selectedDateStr}! Falta ${2 - state.treinosNaSemana} treino para atingir a meta semanal.`);
     }
 
     resetSelectionToDefaults();
@@ -562,12 +662,12 @@
     loadStateFromFirebase();
   }
 
-  // EVENT LISTENERS
+  // EVENTOS
   document.getElementById('rules-toggle').onclick = () => {
     const content = document.getElementById('rules-content');
     const isVisible = content.style.display === 'block';
     content.style.display = isVisible ? 'none' : 'block';
-    document.getElementById('rules-toggle').innerText = isVisible ? '📜 HOW TO PLAY & RULES ▼' : '📜 HOW TO PLAY & RULES ▲';
+    document.getElementById('rules-toggle').innerText = isVisible ? '📜 REGRAS DO JOGO ▼' : '📜 REGRAS DO JOGO ▲';
   };
 
   document.getElementById('log-date-picker').addEventListener('change', () => {
@@ -580,7 +680,7 @@
   document.getElementById('btn-calculate').onclick = saveLog;
 
   document.getElementById('btn-reset-game').onclick = async () => {
-    if (confirm("Tens a certeza de que queres fazer um reset total da campanha? Todo o progresso será perdido!")) {
+    if (confirm("Tens a certeza de que queres repor toda a campanha? Todo o progresso será apagado permanentemente!")) {
       state = { ...defaultState, dailyLogs: {} };
       await saveStateToFirebase();
       location.reload();
