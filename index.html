@@ -59,7 +59,6 @@
       border: 3px solid var(--yellow);
       background: linear-gradient(135deg, #181232 0%, #341f47 100%);
       box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
-      text-align: center;
     }
 
     .main-title {
@@ -360,19 +359,71 @@
       text-transform: uppercase;
     }
 
-    .reward-desc {
-      font-size: 0.9rem;
-      text-align: center;
+    /* Estilos para a lista de prémios em etapas */
+    .tiers-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .tier-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.4);
+      border: 2px dashed var(--card-border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      transition: all 0.3s ease;
+    }
+
+    .tier-item.unlocked {
+      border-style: solid;
+      border-color: var(--green);
+      background: rgba(0, 255, 204, 0.1);
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+    }
+
+    .tier-info {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .tier-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: var(--yellow);
+      margin-bottom: 2px;
+    }
+
+    .tier-item.unlocked .tier-title {
+      color: var(--green);
+    }
+
+    .tier-desc {
+      font-size: 0.82rem;
       color: #ffeaa7;
       font-weight: 700;
     }
 
-    .mystery-box {
-      background: rgba(0,0,0,0.4);
-      border: 2px dashed var(--yellow);
-      border-radius: 10px;
-      padding: 12px;
-      margin-top: 8px;
+    .tier-status {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      color: var(--muted);
+      border: 1px solid var(--card-border);
+      white-space: nowrap;
+      margin-left: 8px;
+    }
+
+    .tier-item.unlocked .tier-status {
+      background: rgba(0, 255, 204, 0.2);
+      color: var(--green);
+      border-color: var(--green);
     }
   </style>
 </head>
@@ -391,8 +442,7 @@
       <ul>
         <li><b>Ciclo Fixo:</b> A semana corre de Segunda a Domingo.</li>
         <li><b>Registo:</b> Apenas é permitido 1 registo por dia de forma sequencial.</li>
-        <li><b>Meta Base (2 Treinos):</b> Desbloqueia o prémio principal misterioso de comida da semana! 🍔</li>
-        <li><b>Bónus Extra (3+ Treinos):</b> Cada treino além do 2.º dá direito a uma recompensa extra deliciosa (ex: snack, doce ou miminho surpresa)! 🍫🍟</li>
+        <li><b>Escala de Prémios:</b> Todos os prémios da semana (base e bónus para 3º, 4º... treinos) estão visíveis desde o início. Conquista-os à medida que treinas! 🚀</li>
       </ul>
     </div>
 
@@ -420,14 +470,14 @@
       </div>
       <div class="stat-box">
         <div class="stat-val" id="total-metas" style="color: var(--yellow);">0</div>
-        <div class="stat-lbl">Prémios Desbloqueados</div>
+        <div class="stat-lbl">Prémios Conquistados</div>
       </div>
     </div>
 
     <!-- Barra de Progresso -->
     <div style="margin-top: 12px;">
       <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700;">
-        <span>PROGRESSO PARA O PRÉMIO</span>
+        <span>PROGRESSO DA SEMANA</span>
         <span id="progress-text" style="color: var(--yellow);">0%</span>
       </div>
       <div class="progress-bg">
@@ -436,24 +486,13 @@
     </div>
   </div>
 
-  <!-- CAIXA DE PRÉMIOS (SECRETA ATÉ AO 2º TREINO) -->
+  <!-- CAIXA DE PRÉMIOS EM ESCALA (TODOS VISÍVEIS) -->
   <div class="card card-reward">
-    <div class="reward-box-title">🎁 PRÉMIO GASTRONÓMICO DA SEMANA 🍔</div>
-    <div class="mystery-box" id="mystery-reward-container">
-      <div id="reward-locked-view">
-        <div style="font-size: 1.8rem; margin-bottom: 4px;">🔒❓</div>
-        <div style="font-size: 0.85rem; color: var(--muted); font-weight: 700;">O prémio principal está secreto!<br>Completa <span style="color: var(--yellow);">2 treinos</span> esta semana para o revelar.</div>
-      </div>
-      <div id="reward-unlocked-view" style="display: none;">
-        <div style="font-size: 1.5rem; margin-bottom: 4px;">🎉🔓</div>
-        <div class="reward-desc" id="weekly-reward-text">---</div>
-      </div>
-    </div>
-
-    <!-- Indicador de Bónus Extra (3º Treino e seguintes) -->
-    <div id="bonus-reward-box" style="margin-top: 12px; border-top: 1px dashed rgba(255,215,0,0.3); padding-top: 10px; display: none;">
-      <div style="font-family: 'Press Start 2P', monospace; font-size: 0.55rem; color: var(--green); margin-bottom: 4px;">✨ BÓNUS DE EXCESSO DE FERRO!</div>
-      <div style="font-size: 0.82rem; color: #a3ffef; font-weight: 700;" id="bonus-reward-desc">Já atingiste a meta base! Cada treino extra desbloqueia um miminho extra! 🍦🍪</div>
+    <div class="reward-box-title">🎁 TABELA DE PRÉMIOS DA SEMANA 🏆</div>
+    <div style="font-size: 0.75rem; color: #ffeaa7; margin-bottom: 10px; text-align: center;">Vê abaixo tudo o que podes conquistar esta semana à medida que acumulas treinos!</div>
+    
+    <div class="tiers-container" id="tiers-container">
+      <!-- Preenchido via JavaScript -->
     </div>
   </div>
 
@@ -470,7 +509,7 @@
     <div id="log-controls-container">
       <div class="section-title">O que fizeste hoje?</div>
       <div class="btn-grid">
-        <button class="btn btn-green active" id="btn-t-gym"><span>🏋️ Treino Feito</span><span style="font-size: 0.65rem; color: var(--muted);">(+1 p/ o prémio!)</span></button>
+        <button class="btn btn-green active" id="btn-t-gym"><span>🏋️ Treino Feito</span><span style="font-size: 0.65rem; color: var(--muted);">(+1 p/ os prémios!)</span></button>
         <button class="btn btn-red" id="btn-t-skip"><span>🍿 Descanso / Falta</span><span style="font-size: 0.65rem; color: #ff9999;">(Hoje foi repouso)</span></button>
       </div>
 
@@ -513,7 +552,7 @@
 
   let state = { ...defaultState };
 
-  // Prémios gastronómicos secretos por semana
+  // Prémios principais de comida por semana
   const foodRewards = {
     1: "Hambúrguer artesanal gourmet com batatas fritas e molho especial! 🍔🍟",
     2: "Pizza napolitana gigante com ingredientes extra à escolha! 🍕🧀",
@@ -521,12 +560,11 @@
     4: "Crepe doce gigante recheado com chocolate e gelado de baunilha! 🥞🍫"
   };
 
-  // Prémios bónus para o 3º treino em diante
-  const bonusRewards = [
-    "Um gelado artesanal duplo 🍦",
-    "Um snack doce crocante 🍪",
-    "Um café gourmet com pastel de nata ☕",
-    "Um batido de fruta fresco 🥤"
+  // Prémios bónus por cada treino extra (3º, 4º e 5º treino)
+  const extraRewardsList = [
+    { treino: 3, titulo: "3º Treino (Bónus 1)", desc: "Um gelado artesanal duplo 🍦" },
+    { treino: 4, titulo: "4º Treino (Bónus 2)", desc: "Um snack doce crocante 🍪" },
+    { treino: 5, titulo: "5º Treino (Bónus 3)", desc: "Um café gourmet com pastel de nata ☕" }
   ];
 
   function formatDateLocal(d) {
@@ -622,6 +660,41 @@
     }
   }
 
+  function renderTiers(treinosNaSemana, currentWeekNum) {
+    const container = document.getElementById('tiers-container');
+    container.innerHTML = '';
+
+    // 1. Prémio Base (2 Treinos)
+    let baseUnlocked = treinosNaSemana >= 2;
+    let baseFoodDesc = foodRewards[currentWeekNum] || "Banquete gastronómico especial! 🍽️";
+    
+    let baseDiv = document.createElement('div');
+    baseDiv.className = `tier-item ${baseUnlocked ? 'unlocked' : ''}`;
+    baseDiv.innerHTML = `
+      <div class="tier-info">
+        <div class="tier-title">🌟 Meta Base (2 Treinos)</div>
+        <div class="tier-desc">${baseFoodDesc}</div>
+      </div>
+      <div class="tier-status">${baseUnlocked ? 'CONQUISTADO! 🎉' : `${treinosNaSemana}/2 Treinos`}</div>
+    `;
+    container.appendChild(baseDiv);
+
+    // 2. Prémios Bónus (3º, 4º, 5º Treino)
+    extraRewardsList.forEach(item => {
+      let isUnlocked = treinosNaSemana >= item.treino;
+      let div = document.createElement('div');
+      div.className = `tier-item ${isUnlocked ? 'unlocked' : ''}`;
+      div.innerHTML = `
+        <div class="tier-info">
+          <div class="tier-title">🔥 ${item.titulo}</div>
+          <div class="tier-desc">${item.desc}</div>
+        </div>
+        <div class="tier-status">${isUnlocked ? 'CONQUISTADO! ✨' : `Falta ${item.treino - treinosNaSemana}`}</div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
   async function loadStateFromFirebase() {
     try {
       const docSnap = await getDoc(docRef);
@@ -670,31 +743,8 @@
     document.getElementById('total-treinos').innerText = state.totalTreinos;
     document.getElementById('total-metas').innerText = state.totalMetas;
 
-    // Gestão do Prémio Secreto vs Revelado
-    const lockedView = document.getElementById('reward-locked-view');
-    const unlockedView = document.getElementById('reward-unlocked-view');
-    const bonusBox = document.getElementById('bonus-reward-box');
-    const bonusDesc = document.getElementById('bonus-reward-desc');
-
-    if (treinosNaSemana >= 2) {
-      lockedView.style.display = 'none';
-      unlockedView.style.display = 'block';
-      let rewardText = foodRewards[currentWeekNum] || "Um banquete gastronómico espetacular à escolha! 🍽️✨";
-      document.getElementById('weekly-reward-text').innerHTML = `Desbloqueado!<br><span style="color: var(--white);">${rewardText}</span>`;
-    } else {
-      lockedView.style.display = 'block';
-      unlockedView.style.display = 'none';
-    }
-
-    // Gestão dos Prémios Bónus (3º treino em diante)
-    if (treinosNaSemana > 2) {
-      bonusBox.style.display = 'block';
-      let bonusIndex = (treinosNaSemana - 3) % bonusRewards.length;
-      let currentBonus = bonusRewards[bonusIndex];
-      bonusDesc.innerHTML = `Treino #${treinosNaSemana} atingido! Ganhaste um bónus extra: <b>${currentBonus}</b>! 🎁✨`;
-    } else {
-      bonusBox.style.display = 'none';
-    }
+    // Renderizar todos os prémios e estados na tabela visível
+    renderTiers(treinosNaSemana, currentWeekNum);
 
     let pct = Math.min(100, Math.round((treinosNaSemana / 2) * 100));
     document.getElementById('progress-text').innerText = `${pct}%`;
@@ -763,12 +813,12 @@
 
     if (treinosNaSemanaAntes < 2 && treinosNaSemanaDepois === 2 && state.pendingStatus === 'gym') {
       state.totalMetas++;
-      alert(`🎉 PARABÉNS! Atingiste o 2.º treino e REVELASTE O PRÉMIO SECRETO da Semana ${currentWeekNum}! 🍔✨`);
+      alert(`🎉 PARABÉNS! Atingiste o 2.º treino e desbloqueaste a Meta Base da Semana ${currentWeekNum}! 🍔✨`);
     } else if (treinosNaSemanaDepois > 2 && state.pendingStatus === 'gym') {
       state.totalMetas++;
-      alert(`🔥 TREINO BÓNUS EXTRA (${treinosNaSemanaDepois}º treino)! Ganhaste um miminho extra delicioso! 🍦🍫`);
+      alert(`🔥 INCRÍVEL! Treino #${treinosNaSemanaDepois} concluído! Desbloqueaste mais um prémio bónus extra! 🎁✨`);
     } else {
-      alert(`Registo guardado para ${selectedDateStr}! Continua o foco! 💪`);
+      alert(`Registo guardado para ${selectedDateStr}! Continua com força! 💪`);
     }
 
     resetSelectionToDefaults();
