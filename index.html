@@ -1,207 +1,301 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Ana's Gym Quest - Santamaria Edition</title>
+  <title>Ana Gym Quest</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
-  
-  <!-- SDK do Firebase (Versão Compatível) -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0c0814;
-      --card: #181124;
-      --card-border: #3b2d54;
-      --pink: #ff2a85;
-      --cyan: #00f0ff;
-      --yellow: #ffe600;
+      --bg: #090d16;
+      --card: #111827;
+      --card-border: #1f293d;
       --green: #10b981;
+      --blue: #3b82f6;
+      --red: #ef4444;
       --white: #ffffff;
-      --muted: #9ca3af;
+      --muted: #6b7280;
     }
 
     * { box-sizing: border-box; }
 
-    body {
-      font-family: 'Rajdhani', sans-serif;
-      background: var(--bg);
-      color: var(--white);
-      margin: 0;
+    body { 
+      font-family: 'Rajdhani', system-ui, sans-serif; 
+      background: var(--bg); 
+      color: var(--white); 
+      margin: 0; 
       padding: 12px;
-      background-image: radial-gradient(rgba(255, 42, 133, 0.1) 1px, transparent 0);
+      background-image: radial-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 0);
       background-size: 20px 20px;
       -webkit-tap-highlight-color: transparent;
     }
 
-    .container {
-      max-width: 400px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .container { 
+      max-width: 100%; 
+      margin: 0 auto; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 12px; 
     }
-
-    .card {
-      background: var(--card);
-      border: 2px solid var(--card-border);
-      border-radius: 12px;
-      padding: 14px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    
+    .card { 
+      background: var(--card); 
+      border: 1.5px solid var(--card-border); 
+      border-radius: 8px; 
+      padding: 12px; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
     }
 
     .main-title {
       font-family: 'Press Start 2P', monospace;
       text-align: center;
       font-size: 0.75rem;
-      color: var(--pink);
-      text-shadow: 2px 2px var(--cyan);
-      margin-bottom: 4px;
-      line-height: 1.3;
+      color: var(--blue);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      line-height: 1.2;
     }
 
-    .subtitle {
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--yellow);
-      font-weight: 700;
-      margin-bottom: 12px;
+    .header { 
+      font-family: 'Press Start 2P', monospace;
+      text-align: center; 
+      font-size: 0.9rem; 
+      color: var(--green); 
     }
 
-    .section-title {
+    .rules-toggle {
       font-family: 'Press Start 2P', monospace;
       font-size: 0.6rem;
-      color: var(--cyan);
-      margin-bottom: 8px;
-      text-transform: uppercase;
-    }
-
-    /* Rastreador de Treinos */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 8px;
-    }
-
-    .card-slot {
-      background: rgba(0, 0, 0, 0.4);
-      border: 2px dashed var(--card-border);
-      border-radius: 10px;
-      padding: 12px 8px;
+      color: var(--blue);
       text-align: center;
-      transition: all 0.3s ease;
+      padding: 6px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px dashed var(--blue);
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 4px;
+      user-select: none;
     }
 
-    .card-slot.done {
-      border: 2px solid var(--green);
-      background: rgba(16, 185, 129, 0.15);
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+    .rules-content {
+      display: none;
+      font-size: 0.8rem;
+      color: #d1d5db;
+      line-height: 1.4;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--card-border);
     }
 
-    .card-icon {
-      font-size: 1.8rem;
+    .rules-content ul {
+      margin: 4px 0 0 0;
+      padding-left: 18px;
+    }
+
+    .rules-content li {
       margin-bottom: 4px;
     }
 
-    .card-label {
-      font-size: 0.85rem;
-      font-weight: 700;
+    .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px; }
+    
+    .stat-box { 
+      background: rgba(0, 0, 0, 0.4); 
+      border: 1px solid var(--card-border);
+      padding: 8px 4px; 
+      border-radius: 6px; 
+      text-align: center; 
+    }
+    
+    .stat-val { 
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1rem; 
       color: var(--white);
+      margin-bottom: 2px;
     }
 
-    /* Escolha de Prémios */
-    .reward-grid {
+    .stat-lbl { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; font-weight: 700; }
+
+    .progress-bg { 
+      background: rgba(0, 0, 0, 0.5); 
+      border: 1px solid var(--card-border);
+      border-radius: 4px; 
+      height: 12px; 
+      overflow: hidden; 
+      margin-top: 4px; 
+      padding: 1px;
+    }
+    
+    .progress-fill { 
+      background: var(--green); 
+      height: 100%; 
+      width: 0%; 
+      border-radius: 2px;
+      transition: width 0.4s ease; 
+    }
+
+    .btn-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .btn { 
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: rgba(255, 255, 255, 0.03); 
+      color: var(--white); 
+      border: 1px solid var(--card-border); 
+      padding: 8px 6px; 
+      border-radius: 6px; 
+      font-weight: 700; 
+      cursor: pointer; 
+      width: 100%; 
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.2;
+      min-height: 54px;
+      transition: all 0.2s;
+      opacity: 0.4;
     }
 
-    .reward-option {
+    .btn.active {
+      opacity: 1 !important;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+    }
+    
+    .btn:hover:not(:disabled), .btn:active:not(:disabled) { 
+      opacity: 0.9;
+    }
+    .btn:disabled { opacity: 0.25; cursor: not-allowed; }
+    
+    .btn-green { border-color: var(--green); color: var(--green); }
+    .btn-blue { border-color: var(--blue); color: var(--blue); }
+    .btn-red { 
+      border: 1.5px solid var(--red) !important; 
+      color: var(--red) !important; 
+      background: rgba(239, 68, 68, 0.08) !important;
+    }
+    
+    .btn-next { 
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.7rem;
+      background: var(--green); 
+      color: #000; 
+      border: none;
+      margin-top: 12px; 
+      padding: 14px; 
+      font-weight: bold;
+      min-height: 48px;
+      width: 100%;
+      border-radius: 6px;
+      cursor: pointer;
+      opacity: 1;
+    }
+    
+    .section-title { 
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem; 
+      color: var(--green); 
+      margin-bottom: 6px; 
+      text-transform: uppercase; 
+    }
+    
+    .status-badge { 
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem; 
+      padding: 3px 6px; 
+      border-radius: 3px; 
+      background: rgba(59, 130, 246, 0.1); 
+      border: 1px solid var(--blue);
+      color: var(--blue);
+      display: inline-block; 
+    }
+    
+    .timer-box { 
+      font-family: 'Press Start 2P', monospace;
+      text-align: center; 
+      font-size: 0.6rem; 
+      color: var(--blue); 
+      margin-top: 10px; 
+    }
+
+    .reset-link {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 4px;
+    }
+
+    .sync-status {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .date-picker-box {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1.5px solid var(--card-border);
-      border-radius: 8px;
-      padding: 10px;
-      cursor: pointer;
-      transition: all 0.2s;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 6px 10px;
+      margin-bottom: 10px;
     }
 
-    .reward-option.selected {
-      border-color: var(--yellow);
-      background: rgba(255, 230, 0, 0.1);
-      box-shadow: 0 0 8px rgba(255, 230, 0, 0.2);
-    }
-
-    .reward-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
-
-    /* Botões */
-    .btn-action {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.65rem;
-      background: var(--pink);
-      color: var(--white);
+    .date-picker-box input {
+      background: transparent;
       border: none;
-      padding: 14px;
-      border-radius: 8px;
-      width: 100%;
-      cursor: pointer;
-      margin-top: 10px;
+      color: var(--white);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
       font-weight: bold;
-      text-shadow: 1px 1px #000;
-      box-shadow: 0 4px 0px #b80056;
-      transition: transform 0.1s, box-shadow 0.1s;
+      color-scheme: dark;
     }
 
-    .btn-action:active {
-      transform: translateY(4px);
-      box-shadow: 0 0px 0px #b80056;
-    }
-
-    .btn-action:disabled {
-      background: var(--card-border);
-      color: var(--muted);
-      box-shadow: none;
-      cursor: not-allowed;
-    }
-
-    /* Banner da Bandeira / Vitória */
-    .flag-banner {
-      background: linear-gradient(135deg, var(--pink), var(--cyan));
-      border-radius: 8px;
-      padding: 12px;
-      text-align: center;
-      color: #000;
-      font-weight: 800;
-      display: none;
+    .daily-summary-panel {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--green);
+      border-radius: 6px;
+      padding: 8px;
       margin-top: 10px;
-      animation: pulse 1.5s infinite;
+      text-align: center;
+      display: none;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-      100% { transform: scale(1); }
+    .daily-summary-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: var(--green);
+      margin-bottom: 4px;
     }
 
-    .quote-box {
+    .daily-summary-details {
+      font-size: 0.8rem;
+      color: var(--white);
+      line-height: 1.3;
+    }
+
+    .lock-notice {
+      color: var(--red);
       font-size: 0.75rem;
-      font-style: italic;
-      color: var(--cyan);
       text-align: center;
       margin-top: 6px;
+      font-weight: bold;
+      display: none;
     }
   </style>
 </head>
@@ -209,164 +303,293 @@
 
 <div class="container">
 
-  <!-- PAINEL PRINCIPAL -->
+  <!-- DASHBOARD -->
   <div class="card">
-    <div class="main-title">♠️ ANA'S GYM QUEST 🎴</div>
-    <div class="subtitle">SANTAMARIA RETRO EDITION</div>
+    <div class="main-title">🏋️ Ana Gym Quest 🏋️</div>
+    <div class="sync-status" id="sync-status">⚡ CONNECTING TO FIREBASE...</div>
     
-    <div class="quote-box">"Eu sei, tu és tudo o que eu quero!" 🎶</div>
+    <!-- Rules Section -->
+    <div class="rules-toggle" id="rules-toggle">📜 HOW TO PLAY & RULES ▼</div>
+    <div class="rules-content" id="rules-content">
+      <ul>
+        <li><b>Limite Diário:</b> Apenas 1 registo permitido por dia (Treino ou Falta).</li>
+        <li><b>Meta Semanal:</b> Completar exatamente 2 treinos por semana para desbloquear o prémio.</li>
+        <li><b>Registo:</b> Regista os teus dias sequencialmente para manter o progresso alinhado.</li>
+      </ul>
+    </div>
 
-    <div style="margin-top: 14px;">
-      <div class="section-title">Vazas da Semana (Meta: 2 Treinos)</div>
-      <div class="cards-grid">
-        <div class="card-slot" id="slot-1">
-          <div class="card-icon" id="icon-1">🎴</div>
-          <div class="card-label" id="label-1">TREINO 1</div>
-        </div>
-        <div class="card-slot" id="slot-2">
-          <div class="card-icon" id="icon-2">🎴</div>
-          <div class="card-label" id="label-2">TREINO 2</div>
-        </div>
+    <div class="header" id="week-title" style="margin-top: 8px;">SEMANA 1</div>
+    <div style="text-align: center; margin-top: 4px;">
+      <span class="status-badge" id="goal-tracker">META SEMANAL: 0 / 2 TREINOS</span>
+    </div>
+    
+    <!-- Daily Summary Panel -->
+    <div class="daily-summary-panel" id="daily-summary-panel">
+      <div class="daily-summary-title" id="summary-date-title">REGISTO DIÁRIO</div>
+      <div class="daily-summary-details" id="summary-details">---</div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-val" id="total-treinos" style="color: var(--green);">0</div>
+        <div class="stat-lbl">Treinos Feitos</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="total-metas" style="color: var(--blue);">0</div>
+        <div class="stat-lbl">Metas Semanais</div>
       </div>
     </div>
 
-    <!-- Banner de Sucesso quando faz Bandeira -->
-    <div class="flag-banner" id="flag-banner">
-      🚩 FIZESTE BANDEIRA! 🚩<br>
-      <span style="font-size: 0.8rem; font-weight: bold;">Prémio semanal desbloqueado com sucesso!</span>
-    </div>
-
-    <button class="btn-action" id="btn-log-workout">+ REGISTAR TREINO HOJE</button>
-  </div>
-
-  <!-- SELECÇÃO DE PRÉMIOS -->
-  <div class="card">
-    <div class="section-title">🍕 Prémio da Bandeira</div>
-    <div style="font-size: 0.75rem; color: var(--muted); margin-bottom: 8px;">
-      Escolhe o jantar que queres desbloquear esta semana:
-    </div>
-
-    <div class="reward-grid">
-      <div class="reward-option selected" onclick="selectReward(this, 'Italiano 🇮🇹')">
-        <div class="reward-info">
-          <span>🍕</span>
-          <span>Jantar Italiano (Massa/Pizza)</span>
-        </div>
-        <span style="color: var(--yellow); font-size: 0.75rem;">🎯 Ativo</span>
+    <!-- Progress -->
+    <div style="margin-top: 10px;">
+      <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700;">
+        <span>PROGRESSO SEMANAL</span>
+        <span id="progress-text" style="color: var(--green);">0%</span>
       </div>
-
-      <div class="reward-option" onclick="selectReward(this, 'Hamburgueria 🍔')">
-        <div class="reward-info">
-          <span>🍔</span>
-          <span>Hamburgueria Artesanal</span>
-        </div>
-        <span style="color: var(--muted); font-size: 0.75rem;">Escolher</span>
-      </div>
-
-      <div class="reward-option" onclick="selectReward(this, 'Sushi / Petiscos 🍣')">
-        <div class="reward-info">
-          <span>🍣</span>
-          <span>Sushi ou Noite de Petiscos</span>
-        </div>
-        <span style="color: var(--muted); font-size: 0.75rem;">Escolher</span>
+      <div class="progress-bg">
+        <div class="progress-fill" id="progress-bar"></div>
       </div>
     </div>
   </div>
 
-  <!-- BÓNUS SUECA -->
+  <!-- DAILY LOGS -->
   <div class="card">
-    <div class="section-title">🃏 Cartas de Ajuda</div>
-    <div style="font-size: 0.8rem; color: #d1d5db; line-height: 1.3;">
-      • <b>Corta-Mato (1x/mês):</b> Troca 1 treino de ginásio por uma caminhada outdoor (>45 min).<br>
-      • <b>Renúncia (1x/mês):</b> Salva a semana se só conseguires treinar 1 vez por motivos de força maior!
+    <div class="section-title">Registar Dia (Máx. 1 por dia)</div>
+    <div class="date-picker-box">
+      <span style="font-size: 0.8rem; font-weight: 700;">📅 DATA:</span>
+      <input type="date" id="log-date-picker" min="2026-09-01">
     </div>
+    
+    <div class="lock-notice" id="lock-notice">⚠️ REGISTA PRIMEIRO O DIA ANTERIOR!</div>
+
+    <div id="log-controls-container">
+      <div class="section-title">Estado do Treino</div>
+      <div class="btn-grid">
+        <button class="btn btn-green active" id="btn-t-gym"><span>🏋️ Treino Feito</span><span style="font-size: 0.7rem; color: var(--muted);">(+1 Treino)</span></button>
+        <button class="btn btn-red" id="btn-t-skip"><span>⚠️ Falta / Descanso</span><span style="font-size: 0.7rem; color: #fca5a5;">(0 Treinos)</span></button>
+      </div>
+
+      <button class="btn btn-next" id="btn-calculate">GUARDAR REGISTO</button>
+    </div>
+
+    <div class="timer-box" id="timer-box"></div>
+    <div class="reset-link" id="btn-reset-game">Reset Campanha Total</div>
   </div>
 
 </div>
 
-<script>
-  // CONFIGURAÇÃO DO TEU FIREBASE
+<!-- FIREBASE & CORE LOGIC -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
   const firebaseConfig = {
-    apiKey: "AIzaSyDnQt7lYOaS2V2C-87jpj5jyPnZ4Cj7110",
-    authDomain: "ana-gym-quest.firebaseapp.com",
-    projectId: "ana-gym-quest",
-    storageBucket: "ana-gym-quest.firebasestorage.app",
-    messagingSenderId: "477732232018",
-    appId: "1:477732232018:web:ba4a41b43321a7a54c788b",
-    measurementId: "G-8KSSKE1H15"
+    apiKey: "AIzaSyAe8KpRfnAtRvnVecljcXrnPCQ1iY-W69w",
+    authDomain: "xmas-challenge-8bd1b.firebaseapp.com",
+    projectId: "xmas-challenge-8bd1b",
+    storageBucket: "xmas-challenge-8bd1b.firebasestorage.app",
+    messagingSenderId: "87265028067",
+    appId: "1:87265028067:web:266705a135d06c869022d6",
+    measurementId: "G-7X97W8W65B"
   };
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-  let completedWorkouts = 0;
-  let selectedReward = "Italiano 🇮🇹";
+  const DOC_ID = "ana_gym_quest_data";
+  const docRef = doc(db, "challenges", DOC_ID);
 
-  const btnLog = document.getElementById('btn-log-workout');
-  const flagBanner = document.getElementById('flag-banner');
-
-  // Carregar dados salvos do Firebase ao iniciar
-  db.collection("users").doc("ana").get().then((doc) => {
-    if (doc.exists) {
-      const data = doc.data();
-      completedWorkouts = data.completedWorkouts || 0;
-      selectedReward = data.selectedReward || "Italiano 🇮🇹";
-      updateUI();
-    }
-  }).catch((error) => {
-    console.log("Erro ao carregar dados:", error);
-  });
-
-  btnLog.onclick = () => {
-    if (completedWorkouts < 2) {
-      completedWorkouts++;
-      saveData();
-      updateUI();
-    }
+  const defaultState = {
+    treinosNaSemana: 0,
+    totalTreinos: 0,
+    totalMetas: 0,
+    semanaAtual: 1,
+    dailyLogs: {},
+    pendingStatus: 'gym'
   };
 
-  function selectReward(element, rewardName) {
-    document.querySelectorAll('.reward-option').forEach(opt => {
-      opt.classList.remove('selected');
-      opt.querySelector('span:last-child').innerText = 'Escolher';
-      opt.querySelector('span:last-child').style.color = 'var(--muted)';
-    });
+  let state = { ...defaultState };
 
-    element.classList.add('selected');
-    element.querySelector('span:last-child').innerText = '🎯 Ativo';
-    element.querySelector('span:last-child').style.color = 'var(--yellow)';
-    selectedReward = rewardName;
-    saveData();
+  function formatDateLocal(d) {
+    let year = d.getFullYear();
+    let month = String(d.getMonth() + 1).padStart(2, '0');
+    let day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
-  function saveData() {
-    db.collection("users").doc("ana").set({
-      completedWorkouts: completedWorkouts,
-      selectedReward: selectedReward,
-      lastUpdated: new Date()
-    }, { merge: true });
+  function getPTDateString(date = new Date()) {
+    return date.toLocaleDateString('en-CA', { timeZone: 'Europe/Lisbon' });
+  }
+
+  function getNextSequentialDate() {
+    let baseDate = new Date(2026, 8, 1);
+    while (true) {
+      let dateStr = formatDateLocal(baseDate);
+      if (!state.dailyLogs || !state.dailyLogs[dateStr]) {
+        return dateStr;
+      }
+      baseDate.setDate(baseDate.getDate() + 1);
+    }
+  }
+
+  async function loadStateFromFirebase() {
+    try {
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        state = { ...defaultState, ...docSnap.data() };
+      } else {
+        await saveStateToFirebase();
+      }
+      document.getElementById('sync-status').innerText = "☁️ CLOUD SYNCED";
+      document.getElementById('sync-status').style.color = "var(--green)";
+    } catch (e) {
+      console.error("Firebase connection error:", e);
+      document.getElementById('sync-status').innerText = "⚠️ OFFLINE MODE";
+      document.getElementById('sync-status').style.color = "#f59e0b";
+    }
+
+    const datePicker = document.getElementById('log-date-picker');
+    let today = getPTDateString();
+    datePicker.min = "2026-09-01";
+    datePicker.max = today;
+
+    let nextAllowed = getNextSequentialDate();
+    datePicker.value = (nextAllowed <= today) ? nextAllowed : today;
+
+    resetSelectionToDefaults();
+    updateUI();
+  }
+
+  async function saveStateToFirebase() {
+    try {
+      document.getElementById('sync-status').innerText = "⏳ SAVING...";
+      await setDoc(docRef, state);
+      document.getElementById('sync-status').innerText = "☁️ CLOUD SYNCED";
+      document.getElementById('sync-status').style.color = "var(--green)";
+    } catch (e) {
+      console.error("Firebase save error:", e);
+      document.getElementById('sync-status').innerText = "⚠️ ERROR SAVING";
+      document.getElementById('sync-status').style.color = "var(--red)";
+    }
+  }
+
+  function resetSelectionToDefaults() {
+    state.pendingStatus = 'gym';
+    ['btn-t-gym', 'btn-t-skip'].forEach(id => document.getElementById(id).classList.remove('active'));
+    document.getElementById('btn-t-gym').classList.add('active');
   }
 
   function updateUI() {
-    if (completedWorkouts >= 1) {
-      document.getElementById('slot-1').classList.add('done');
-      document.getElementById('icon-1').innerText = '✅';
-      document.getElementById('label-1').innerText = 'CONCLUÍDO';
-      document.getElementById('label-1').style.color = 'var(--green)';
-    }
+    document.getElementById('week-title').innerText = `SEMANA ${state.semanaAtual}`;
+    document.getElementById('goal-tracker').innerText = `META SEMANAL: ${state.treinosNaSemana} / 2 TREINOS`;
+    document.getElementById('total-treinos').innerText = state.totalTreinos;
+    document.getElementById('total-metas').innerText = state.totalMetas;
 
-    if (completedWorkouts >= 2) {
-      document.getElementById('slot-2').classList.add('done');
-      document.getElementById('icon-2').innerText = '✅';
-      document.getElementById('label-2').innerText = 'CONCLUÍDO';
-      document.getElementById('label-2').style.color = 'var(--green)';
+    let pct = Math.min(100, Math.round((state.treinosNaSemana / 2) * 100));
+    document.getElementById('progress-text').innerText = `${pct}%`;
+    document.getElementById('progress-bar').style.width = `${pct}%`;
 
-      flagBanner.style.display = 'block';
-      btnLog.disabled = true;
-      btnLog.innerText = 'SEMANA CONCLUÍDA! 🎉';
+    let selectedDate = document.getElementById('log-date-picker').value;
+    let nextSequential = getNextSequentialDate();
+    let summaryPanel = document.getElementById('daily-summary-panel');
+    let lockNotice = document.getElementById('lock-notice');
+    let controlsContainer = document.getElementById('log-controls-container');
+
+    let isAlreadyLogged = !!(state.dailyLogs && state.dailyLogs[selectedDate]);
+
+    if (isAlreadyLogged) {
+      let log = state.dailyLogs[selectedDate];
+      summaryPanel.style.display = 'block';
+      lockNotice.style.display = 'none';
+      controlsContainer.style.display = 'none';
+
+      let statusText = log.status === 'gym' ? '🏋️ Treino Feito' : '⚠️ Falta / Descanso';
+      document.getElementById('summary-date-title').innerText = `REGISTO JÁ EFETUADO (${selectedDate})`;
+      document.getElementById('summary-details').innerHTML = `<b>Estado:</b> ${statusText}<br><span style="font-size: 0.75rem; color: var(--muted);">Só é permitido 1 registo por dia.</span>`;
+    } else if (selectedDate > nextSequential) {
+      summaryPanel.style.display = 'none';
+      lockNotice.style.display = 'block';
+      lockNotice.innerText = `⚠️ REGISTA PRIMEIRO O DIA ${nextSequential}!`;
+      controlsContainer.style.display = 'none';
+    } else {
+      summaryPanel.style.display = 'none';
+      lockNotice.style.display = 'none';
+      controlsContainer.style.display = 'block';
     }
   }
-</script>
 
+  function selectStatus(status, el) {
+    let selectedDate = document.getElementById('log-date-picker').value;
+    if (state.dailyLogs && state.dailyLogs[selectedDate]) return;
+
+    state.pendingStatus = status;
+    ['btn-t-gym', 'btn-t-skip'].forEach(id => document.getElementById(id).classList.remove('active'));
+    el.classList.add('active');
+    updateUI();
+  }
+
+  async function saveLog() {
+    let selectedDateStr = document.getElementById('log-date-picker').value;
+    if (!state.dailyLogs) state.dailyLogs = {};
+    
+    // Validação estrita: apenas um registo por dia
+    if (state.dailyLogs[selectedDateStr]) {
+      alert("Já existe um registo para este dia! Só é permitido um registo por dia.");
+      return;
+    }
+
+    if (state.pendingStatus === 'gym') {
+      state.treinosNaSemana++;
+      state.totalTreinos++;
+    }
+
+    state.dailyLogs[selectedDateStr] = {
+      status: state.pendingStatus
+    };
+
+    // Atingiu exatamente os 2 treinos da semana
+    if (state.treinosNaSemana >= 2) {
+      state.totalMetas++;
+      alert(`🎉 PARABÉNS! Meta Semanal ${state.semanaAtual} concluída (2/2 treinos)! Prémio desbloqueado! 🏆`);
+      state.treinosNaSemana = 0;
+      state.semanaAtual++;
+    } else {
+      alert(`Registo guardado para ${selectedDateStr}! Faltam ${2 - state.treinosNaSemana} treino(s) para a meta semanal.`);
+    }
+
+    resetSelectionToDefaults();
+    await saveStateToFirebase();
+    loadStateFromFirebase();
+  }
+
+  // EVENT LISTENERS
+  document.getElementById('rules-toggle').onclick = () => {
+    const content = document.getElementById('rules-content');
+    const isVisible = content.style.display === 'block';
+    content.style.display = isVisible ? 'none' : 'block';
+    document.getElementById('rules-toggle').innerText = isVisible ? '📜 HOW TO PLAY & RULES ▼' : '📜 HOW TO PLAY & RULES ▲';
+  };
+
+  document.getElementById('log-date-picker').addEventListener('change', () => {
+    resetSelectionToDefaults();
+    updateUI();
+  });
+
+  document.getElementById('btn-t-gym').onclick = (e) => selectStatus('gym', e.currentTarget);
+  document.getElementById('btn-t-skip').onclick = (e) => selectStatus('skip', e.currentTarget);
+  document.getElementById('btn-calculate').onclick = saveLog;
+
+  document.getElementById('btn-reset-game').onclick = async () => {
+    if (confirm("Tens a certeza de que queres fazer um reset total da campanha? Todo o progresso será perdido!")) {
+      state = { ...defaultState, dailyLogs: {} };
+      await saveStateToFirebase();
+      location.reload();
+    }
+  };
+
+  window.addEventListener('DOMContentLoaded', () => {
+    loadStateFromFirebase();
+  });
+</script>
 </body>
 </html>
