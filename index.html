@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Ana Gym Quest - A Odisseia do Ferro</title>
+  <title>Ana Gym Quest - A Odisseia do Ferro 🃏</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
@@ -341,15 +341,6 @@
       line-height: 1.3;
     }
 
-    .lock-notice {
-      color: var(--red);
-      font-size: 0.8rem;
-      text-align: center;
-      margin-top: 8px;
-      font-weight: bold;
-      display: none;
-    }
-
     .reward-box-title {
       font-family: 'Press Start 2P', monospace;
       font-size: 0.7rem;
@@ -432,21 +423,21 @@
 
   <!-- PAINEL DE PROGRESSO -->
   <div class="card">
-    <div class="main-title">🔥 Ana Gym Quest 💪</div>
-    <div class="subtitle-fun">Foco, força e boa disposição!</div>
+    <div class="main-title">🎵 Ana Gym Quest: Castelos na Areia 🌊</div>
+    <div class="subtitle-fun">🎶 <i>"Há um mar à solta, nas areias deste mar..."</i> — Rumo ao ferro! 🏋️</div>
     
-    <div class="rules-toggle" id="rules-toggle">REGRAS DO JOGO ▼</div>
+    <div class="rules-toggle" id="rules-toggle">📜 REGRAS DA SUECA & DOS SANTAMARIA ▼</div>
     <div class="rules-content" id="rules-content">
       <ul>
-        <li><b>Ciclo Fixo:</b> A semana corre de Segunda a Domingo.</li>
-        <li><b>Registo:</b> Apenas é permitido 1 registo por dia de forma sequencial.</li>
-        <li><b>Prémios Misteriosos:</b> O prémio base e os bónus estão ocultos ou fechados até atingires o número de treinos necessário.</li>
+        <li><b>Ciclo Fixo (De 🂡 a 🂮):</b> A semana corre de Segunda a Domingo ao som de um grande êxito.</li>
+        <li><b>Registo Livre:</b> Podes registar qualquer dia em falta livremente, sem ordem cronológica obrigatória.</li>
+        <li><b>O Mínimo e os Bónus:</b> Com <i>um mar à solta nas areias deste mar</i>, 2 treinos fecham o mínimo e dão o prémio base. Mas ir mais além garante sempre **um prémio bónus surpresa** em cada treino extra! 🌊🃏</li>
       </ul>
     </div>
 
     <div class="header" id="week-title" style="margin-top: 8px;">SEMANA 1</div>
     <div style="text-align: center; margin-top: 6px;">
-      <span class="status-badge" id="goal-tracker">TREINOS: 0 / 2 (BASE)</span>
+      <span class="status-badge" id="goal-tracker">TREINOS: 0 / 2 (MÍNIMO)</span>
     </div>
 
     <div style="margin-top: 12px;">
@@ -462,11 +453,11 @@
     <div class="stat-grid">
       <div class="stat-box">
         <div class="stat-val" id="total-treinos" style="color: var(--green);">0</div>
-        <div class="stat-lbl">Treinos Feitos</div>
+        <div class="stat-lbl">🏋️ Treinos Feitos</div>
       </div>
       <div class="stat-box">
         <div class="stat-val" id="total-metas" style="color: var(--yellow);">0</div>
-        <div class="stat-lbl">Prémios Conquistados</div>
+        <div class="stat-lbl">🎁 Prémios Conquistados</div>
       </div>
     </div>
 
@@ -483,8 +474,8 @@
 
   <!-- CAIXA DE PRÉMIOS -->
   <div class="card card-reward">
-    <div class="reward-box-title">TABELA DE PRÉMIOS DA SEMANA</div>
-    <div style="font-size: 0.75rem; color: #ffeaa7; margin-bottom: 10px; text-align: center;">Treina para desbloquear o prémio base e os bónus secretos!</div>
+    <div class="reward-box-title">🎴 MESA DOS PRÉMIOS & SANTAMARIA</div>
+    <div style="font-size: 0.75rem; color: #ffeaa7; margin-bottom: 10px; text-align: center;">Solta o mundo à tua volta e levanta os pesos rumo ao banquete! ✨</div>
     
     <div class="tiers-container" id="tiers-container">
       <!-- Preenchido via JavaScript -->
@@ -493,26 +484,24 @@
 
   <!-- REGISTO DIÁRIO -->
   <div class="card">
-    <div class="section-title">Registar Dia (Máx. 1 por dia)</div>
+    <div class="section-title">📅 Registar Dia</div>
     <div class="date-picker-box">
       <span style="font-size: 0.85rem; font-weight: 700;">DATA:</span>
       <input type="date" id="log-date-picker" min="2026-09-01">
     </div>
-    
-    <div class="lock-notice" id="lock-notice">ATENÇÃO! REGISTA PRIMEIRO O DIA ANTERIOR!</div>
 
     <div id="log-controls-container">
-      <div class="section-title">O que fizeste hoje?</div>
+      <div class="section-title">🎧 O que ouviste / fizeste hoje?</div>
       <div class="btn-grid">
-        <button class="btn btn-green active" id="btn-t-gym"><span>Treino Feito</span><span style="font-size: 0.65rem; color: var(--muted);">(+1 para os prémios)</span></button>
-        <button class="btn btn-red" id="btn-t-skip"><span>Descanso / Falta</span><span style="font-size: 0.65rem; color: #ff9999;">(Hoje foi repouso)</span></button>
+        <button class="btn btn-green active" id="btn-t-gym"><span>🏋️ Treino Feito</span><span style="font-size: 0.65rem; color: var(--muted);">(Castelos na Areia no Ferro!)</span></button>
+        <button class="btn btn-red" id="btn-t-skip"><span>🍿 Descanso / Falta</span><span style="font-size: 0.65rem; color: #ff9999;">(Apenas a descansar a voz)</span></button>
       </div>
 
-      <button class="btn btn-next" id="btn-calculate">GUARDAR O REGISTO!</button>
+      <button class="btn btn-next" id="btn-calculate">🔥 GUARDAR O REGISTO! 🌊</button>
     </div>
 
     <div class="timer-box" id="timer-box"></div>
-    <div class="reset-link" id="btn-reset-game">Repor Jogo do Zero</div>
+    <div class="reset-link" id="btn-reset-game">🔄 Repor Jogo do Zero</div>
   </div>
 
 </div>
@@ -548,16 +537,16 @@
   let state = { ...defaultState };
 
   const foodRewards = {
-    1: "Hambúrguer artesanal gourmet com batatas fritas e molho especial!",
-    2: "Pizza napolitana gigante com ingredientes extra à escolha!",
-    3: "Jantar de sushi livre com direito a todas as peças que quisesses!",
-    4: "Crepe doce gigante recheado com chocolate e gelado de baunilha!"
+    1: "🍔 Hambúrguer artesanal gourmet com batatas fritas (Ritmo de Castelos na Areia!)",
+    2: "🍕 Pizza napolitana gigante — Tudo por Amor à boa comida!",
+    3: "🍣 Jantar de sushi livre — Com o mar à solta no prato!",
+    4: "🥞 Crepe doce gigante com chocolate (Doce Fruto Proibido!)"
   };
 
   const extraRewardsList = [
-    { treino: 3, titulo: "3º Treino (Bónus 1)", desc: "Um gelado artesanal duplo" },
-    { treino: 4, titulo: "4º Treino (Bónus 2)", desc: "Um snack doce crocante" },
-    { treino: 5, titulo: "5º Treino (Bónus 3)", desc: "Um café gourmet com pastel de nata" }
+    { treino: 3, titulo: "🌊 3º Treino (Trunfo Mar à Solta)", desc: "🍦 Um gelado artesanal duplo com sabor a verão" },
+    { treino: 4, titulo: "🂡 4º Treino (Trunfo Areias do Mar)", desc: "🍫 Um snack doce crocante e delicioso" },
+    { treino: 5, titulo: "👑 5º Treino (Capote Mareia Cheia)", desc: "☕ Um café gourmet com pastel de nata" }
   ];
 
   function formatDateLocal(d) {
@@ -606,17 +595,6 @@
     return count;
   }
 
-  function getNextSequentialDate() {
-    let baseDate = new Date(2026, 8, 1);
-    while (true) {
-      let dateStr = formatDateLocal(baseDate);
-      if (!state.dailyLogs || !state.dailyLogs[dateStr]) {
-        return dateStr;
-      }
-      baseDate.setDate(baseDate.getDate() + 1);
-    }
-  }
-
   function renderWeekDays(selectedDateStr) {
     const gridEl = document.getElementById('week-days-grid');
     gridEl.innerHTML = '';
@@ -657,22 +635,20 @@
     const container = document.getElementById('tiers-container');
     container.innerHTML = '';
 
-    // 1. Prémio Base (2 Treinos) - Sempre visível, mas oculto/misterioso até atingir 2
     let baseUnlocked = treinosNaSemana >= 2;
-    let baseFoodDesc = baseUnlocked ? (foodRewards[currentWeekNum] || "Banquete gastronómico especial!") : "Prémio Base Misterioso (Atinge 2 treinos para revelar)";
+    let baseFoodDesc = baseUnlocked ? (foodRewards[currentWeekNum] || "🏆 Banquete gastronómico especial!") : "🔒 Prémio Mínimo Misterioso (Atinge 2 treinos com Castelos na Areia!)";
     
     let baseDiv = document.createElement('div');
     baseDiv.className = `tier-item ${baseUnlocked ? 'unlocked' : ''}`;
     baseDiv.innerHTML = `
       <div class="tier-info">
-        <div class="tier-title">Meta Base (2 Treinos)</div>
+        <div class="tier-title">🎯 Meta Mínima (2 Treinos)</div>
         <div class="tier-desc">${baseFoodDesc}</div>
       </div>
-      <div class="tier-status">${baseUnlocked ? 'CONQUISTADO!' : `${treinosNaSemana}/2 Treinos`}</div>
+      <div class="tier-status">${baseUnlocked ? '🔥 CONQUISTADO!' : `${treinosNaSemana}/2 Treinos`}</div>
     `;
     container.appendChild(baseDiv);
 
-    // 2. Prémios Bónus (3º, 4º, 5º Treino) - SÓ aparecem se já foram conquistados!
     extraRewardsList.forEach(item => {
       let isUnlocked = treinosNaSemana >= item.treino;
       if (isUnlocked) {
@@ -683,7 +659,7 @@
             <div class="tier-title">${item.titulo}</div>
             <div class="tier-desc">${item.desc}</div>
           </div>
-          <div class="tier-status">CONQUISTADO!</div>
+          <div class="tier-status">✨ CONQUISTADO!</div>
         `;
         container.appendChild(div);
       }
@@ -706,9 +682,9 @@
     let today = getPTDateString();
     datePicker.min = "2026-09-01";
     datePicker.max = today;
-
-    let nextAllowed = getNextSequentialDate();
-    datePicker.value = (nextAllowed <= today) ? nextAllowed : today;
+    if (!datePicker.value) {
+      datePicker.value = today;
+    }
 
     resetSelectionToDefaults();
     updateUI();
@@ -734,7 +710,7 @@
     let treinosNaSemana = countGymsInWeek(currentWeekNum);
 
     document.getElementById('week-title').innerText = `SEMANA ${currentWeekNum}`;
-    document.getElementById('goal-tracker').innerText = `TREINOS: ${treinosNaSemana} / 2 (BASE)`;
+    document.getElementById('goal-tracker').innerText = `TREINOS: ${treinosNaSemana} / 2 (MÍNIMO)`;
     document.getElementById('total-treinos').innerText = state.totalTreinos;
     document.getElementById('total-metas').innerText = state.totalMetas;
 
@@ -746,9 +722,7 @@
 
     renderWeekDays(selectedDateStr);
 
-    let nextSequential = getNextSequentialDate();
     let summaryPanel = document.getElementById('daily-summary-panel');
-    let lockNotice = document.getElementById('lock-notice');
     let controlsContainer = document.getElementById('log-controls-container');
 
     let isAlreadyLogged = !!(state.dailyLogs && state.dailyLogs[selectedDateStr]);
@@ -756,20 +730,13 @@
     if (isAlreadyLogged) {
       let log = state.dailyLogs[selectedDateStr];
       summaryPanel.style.display = 'block';
-      lockNotice.style.display = 'none';
       controlsContainer.style.display = 'none';
 
-      let statusText = log.status === 'gym' ? 'Treino Feito' : 'Descanso / Falta';
+      let statusText = log.status === 'gym' ? '🏋️ Treino Feito' : '🍿 Descanso / Falta';
       document.getElementById('summary-date-title').innerText = `REGISTO JÁ FEITO (${selectedDateStr})`;
-      document.getElementById('summary-details').innerHTML = `<b>Estado:</b> ${statusText}<br><span style="font-size: 0.75rem; color: var(--muted);">Apenas é permitido um registo por dia.</span>`;
-    } else if (selectedDateStr > nextSequential) {
-      summaryPanel.style.display = 'none';
-      lockNotice.style.display = 'block';
-      lockNotice.innerText = `Atenção! Tens de registar primeiro o dia ${nextSequential} antes de avançar!`;
-      controlsContainer.style.display = 'none';
+      document.getElementById('summary-details').innerHTML = `<b>Estado:</b> ${statusText}<br><span style="font-size: 0.75rem; color: var(--muted);">Podes alterar ou repor o jogo se precisares de corrigir.</span>`;
     } else {
       summaryPanel.style.display = 'none';
-      lockNotice.style.display = 'none';
       controlsContainer.style.display = 'block';
     }
   }
@@ -807,12 +774,12 @@
 
     if (treinosNaSemanaAntes < 2 && treinosNaSemanaDepois === 2 && state.pendingStatus === 'gym') {
       state.totalMetas++;
-      alert(`PARABÉNS! Atingiste o 2.º treino e desbloqueaste o prémio base da Semana ${currentWeekNum}!`);
+      alert(`🎉 Com mar à solta nas areias, atingiste o 2.º treino e desbloqueaste o prémio mínimo da Semana ${currentWeekNum}! 🏆`);
     } else if (treinosNaSemanaDepois > 2 && state.pendingStatus === 'gym') {
       state.totalMetas++;
-      alert(`INCRÍVEL! Treino #${treinosNaSemanaDepois} concluído! Desbloqueaste mais um prémio bónus misterioso!`);
+      alert(`🌊 MAR À SOLTA NO FERRO! Treino #${treinosNaSemanaDepois} concluído com energia máxima dos Santamaria! ✨`);
     } else {
-      alert(`Registo guardado para ${selectedDateStr}! Continua com força!`);
+      alert(`✅ Registo guardado para ${selectedDateStr}! Continua a dar tudo! 💪`);
     }
 
     resetSelectionToDefaults();
@@ -824,7 +791,7 @@
     const content = document.getElementById('rules-content');
     const isVisible = content.style.display === 'block';
     content.style.display = isVisible ? 'none' : 'block';
-    document.getElementById('rules-toggle').innerText = isVisible ? 'REGRAS DO JOGO ▼' : 'REGRAS DO JOGO ▲';
+    document.getElementById('rules-toggle').innerText = isVisible ? '📜 REGRAS DA SUECA & DOS SANTAMARIA ▼' : '📜 REGRAS DA SUECA & DOS SANTAMARIA ▲';
   };
 
   document.getElementById('log-date-picker').addEventListener('change', () => {
