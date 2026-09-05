@@ -423,15 +423,15 @@
 
   <!-- PAINEL DE PROGRESSO -->
   <div class="card">
-    <div class="main-title">🎵 Ana Gym Quest: Castelos na Areia 🌊</div>
-    <div class="subtitle-fun">🎶 <i>"Há um mar à solta, nas areias deste mar..."</i> — Rumo ao ferro! 🏋️</div>
+    <div class="main-title">Ana Gym Quest</div>
+    <div class="subtitle-fun">🏋️ Rumo ao ferro e à consistência! 🃏</div>
     
-    <div class="rules-toggle" id="rules-toggle">📜 REGRAS DO RITMO & DOS SANTAMARIA ▼</div>
+    <div class="rules-toggle" id="rules-toggle">📜 REGRAS DO JOGO ▼</div>
     <div class="rules-content" id="rules-content">
       <ul>
-        <li><b>Ciclo Semanal:</b> A semana corre de Segunda a Domingo ao som de um grande êxito dos Santamaria.</li>
+        <li><b>Ciclo Semanal:</b> A semana corre de Segunda a Domingo.</li>
         <li><b>Registo Livre:</b> Podes registar qualquer dia em falta livremente, sem ordem cronológica obrigatória.</li>
-        <li><b>O Mínimo e os Bónus:</b> Com <i>um mar à solta nas areias deste mar</i>, 2 treinos fecham o mínimo e dão o prémio base. Mas ir mais além garante sempre **um prémio bónus surpresa** em cada treino extra! 🌊🎵</li>
+        <li><b>O Mínimo e os Bónus:</b> 2 treinos fecham o objetivo mínimo semanal. Ir além disso garante **prémios bónus surpresa** em cada treino extra! ✨</li>
       </ul>
     </div>
 
@@ -474,8 +474,8 @@
 
   <!-- CAIXA DE PRÉMIOS -->
   <div class="card card-reward">
-    <div class="reward-box-title">🌊 MESA DOS PRÉMIOS & SANTAMARIA</div>
-    <div style="font-size: 0.75rem; color: #ffeaa7; margin-bottom: 10px; text-align: center;">Solta o mundo à tua volta e levanta os pesos rumo ao banquete! ✨</div>
+    <div class="reward-box-title">🎴 Mesa dos Prémios</div>
+    <div style="font-size: 0.75rem; color: #ffeaa7; margin-bottom: 10px; text-align: center;">Conquista os teus objetivos e desbloqueia recompensas! ✨</div>
     
     <div class="tiers-container" id="tiers-container">
       <!-- Preenchido via JavaScript -->
@@ -491,13 +491,13 @@
     </div>
 
     <div id="log-controls-container">
-      <div class="section-title">🎧 O que ouviste / fizeste hoje?</div>
+      <div class="section-title">🎧 O que fizeste hoje?</div>
       <div class="btn-grid">
-        <button class="btn btn-green active" id="btn-t-gym"><span>🏋️ Treino Feito</span><span style="font-size: 0.65rem; color: var(--muted);">(Castelos na Areia no Ferro!)</span></button>
-        <button class="btn btn-red" id="btn-t-skip"><span>🍿 Descanso / Falta</span><span style="font-size: 0.65rem; color: #ff9999;">(Apenas a descansar a voz)</span></button>
+        <button class="btn btn-green active" id="btn-t-gym"><span>🏋️ Treino Feito</span><span style="font-size: 0.65rem; color: var(--muted);">(Com banda sonora a condizer!)</span></button>
+        <button class="btn btn-red" id="btn-t-skip"><span>🍿 Descanso / Falta</span><span style="font-size: 0.65rem; color: #ff9999;">(Apenas a recuperar energias)</span></button>
       </div>
 
-      <button class="btn btn-next" id="btn-calculate">🔥 GUARDAR O REGISTO! 🌊</button>
+      <button class="btn btn-next" id="btn-calculate">🔥 GUARDAR O REGISTO! 💪</button>
     </div>
 
     <div class="timer-box" id="timer-box"></div>
@@ -537,16 +537,16 @@
   let state = { ...defaultState };
 
   const foodRewards = {
-    1: "🍔 Hambúrguer artesanal gourmet com batatas fritas (Ritmo de Castelos na Areia!)",
-    2: "🍕 Pizza napolitana gigante — Tudo por Amor à boa comida!",
-    3: "🍣 Jantar de sushi livre — Com o mar à solta no prato!",
-    4: "🥞 Crepe doce gigante com chocolate (Doce Fruto Proibido!)"
+    1: "🍔 Hambúrguer artesanal gourmet com batatas fritas",
+    2: "🍕 Pizza napolitana gigante",
+    3: "🍣 Jantar de sushi livre",
+    4: "🥞 Crepe doce gigante com chocolate"
   };
 
   const extraRewardsList = [
-    { treino: 3, titulo: "🌊 3º Treino (Trunfo Mar à Solta)", desc: "🍦 Um gelado artesanal duplo com sabor a verão" },
-    { treino: 4, titulo: "🎵 4º Treino (Trunfo Areias do Mar)", desc: "🍫 Um snack doce crocante e delicioso" },
-    { treino: 5, titulo: "👑 5º Treino (Bónus Mareia Cheia)", desc: "☕ Um café gourmet com pastel de nata" }
+    { treino: 3, titulo: "🍦 3º Treino (Bónus Especial)", desc: "Um gelado artesanal duplo" },
+    { treino: 4, titulo: "🍫 4º Treino (Bónus Especial)", desc: "Um snack doce crocante e delicioso" },
+    { treino: 5, titulo: "☕ 5º Treino (Bónus Especial)", desc: "Um café gourmet com pastel de nata" }
   ];
 
   function formatDateLocal(d) {
@@ -636,7 +636,7 @@
     container.innerHTML = '';
 
     let baseUnlocked = treinosNaSemana >= 2;
-    let baseFoodDesc = baseUnlocked ? (foodRewards[currentWeekNum] || "🏆 Banquete gastronómico especial!") : "🔒 Prémio Mínimo Misterioso (Atinge 2 treinos com Castelos na Areia!)";
+    let baseFoodDesc = baseUnlocked ? (foodRewards[currentWeekNum] || "🏆 Banquete gastronómico especial!") : "🔒 Prémio Mínimo Misterioso (Atinge 2 treinos esta semana!)";
     
     let baseDiv = document.createElement('div');
     baseDiv.className = `tier-item ${baseUnlocked ? 'unlocked' : ''}`;
@@ -774,10 +774,10 @@
 
     if (treinosNaSemanaAntes < 2 && treinosNaSemanaDepois === 2 && state.pendingStatus === 'gym') {
       state.totalMetas++;
-      alert(`🎉 Com mar à solta nas areias, atingiste o 2.º treino e desbloqueaste o prémio mínimo da Semana ${currentWeekNum}! 🏆`);
+      alert(`🎉 Parabéns! Atingiste o 2.º treino e desbloqueaste o prémio mínimo da Semana ${currentWeekNum}! 🏆`);
     } else if (treinosNaSemanaDepois > 2 && state.pendingStatus === 'gym') {
       state.totalMetas++;
-      alert(`🌊 MAR À SOLTA NO FERRO! Treino #${treinosNaSemanaDepois} concluído com energia máxima dos Santamaria! ✨`);
+      alert(`🔥 Excelente! Treino #${treinosNaSemanaDepois} concluído com sucesso! ✨`);
     } else {
       alert(`✅ Registo guardado para ${selectedDateStr}! Continua a dar tudo! 💪`);
     }
@@ -791,7 +791,7 @@
     const content = document.getElementById('rules-content');
     const isVisible = content.style.display === 'block';
     content.style.display = isVisible ? 'none' : 'block';
-    document.getElementById('rules-toggle').innerText = isVisible ? '📜 REGRAS DO RITMO & DOS SANTAMARIA ▼' : '📜 REGRAS DO RITMO & DOS SANTAMARIA ▲';
+    document.getElementById('rules-toggle').innerText = isVisible ? '📜 REGRAS DO JOGO ▼' : '📜 REGRAS DO JOGO ▲';
   };
 
   document.getElementById('log-date-picker').addEventListener('change', () => {
