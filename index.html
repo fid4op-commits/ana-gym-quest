@@ -359,7 +359,6 @@
       text-transform: uppercase;
     }
 
-    /* Estilos para a lista de prémios em etapas */
     .tiers-container {
       display: flex;
       flex-direction: column;
@@ -436,13 +435,12 @@
     <div class="main-title">🔥 Ana Gym Quest 💪</div>
     <div class="subtitle-fun">"Foco, força e boa disposição!" ✨🎯</div>
     
-    <!-- Secção de Regras -->
     <div class="rules-toggle" id="rules-toggle">📜 REGRAS DO JOGO ▼</div>
     <div class="rules-content" id="rules-content">
       <ul>
         <li><b>Ciclo Fixo:</b> A semana corre de Segunda a Domingo.</li>
         <li><b>Registo:</b> Apenas é permitido 1 registo por dia de forma sequencial.</li>
-        <li><b>Escala de Prémios:</b> Todos os prémios da semana (base e bónus para 3º, 4º... treinos) estão visíveis desde o início. Conquista-os à medida que treinas! 🚀</li>
+        <li><b>Prémios Misteriosos:</b> Todos os prémios (base e bónus) estão ocultos até atingires o número de treinos necessário! 🚀</li>
       </ul>
     </div>
 
@@ -451,13 +449,11 @@
       <span class="status-badge" id="goal-tracker">TREINOS: 0 / 2 (BASE)</span>
     </div>
 
-    <!-- Visibilidade dos 7 Dias da Semana -->
     <div style="margin-top: 12px;">
       <div style="font-size: 0.65rem; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; color: var(--pink);">🗓️ ESTE CICLO (SEG → DOM):</div>
       <div class="week-days-grid" id="week-days-grid"></div>
     </div>
     
-    <!-- Painel de Resumo Diário -->
     <div class="daily-summary-panel" id="daily-summary-panel">
       <div class="daily-summary-title" id="summary-date-title">REGISTO DO DIA</div>
       <div class="daily-summary-details" id="summary-details">---</div>
@@ -474,7 +470,6 @@
       </div>
     </div>
 
-    <!-- Barra de Progresso -->
     <div style="margin-top: 12px;">
       <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700;">
         <span>PROGRESSO DA SEMANA</span>
@@ -486,10 +481,10 @@
     </div>
   </div>
 
-  <!-- CAIXA DE PRÉMIOS EM ESCALA (TODOS VISÍVEIS) -->
+  <!-- CAIXA DE PRÉMIOS (TODOS OCULTOS ATÉ DESBLOQUEAR) -->
   <div class="card card-reward">
     <div class="reward-box-title">🎁 TABELA DE PRÉMIOS DA SEMANA 🏆</div>
-    <div style="font-size: 0.75rem; color: #ffeaa7; margin-bottom: 10px; text-align: center;">Vê abaixo tudo o que podes conquistar esta semana à medida que acumulas treinos!</div>
+    <div style="font-size: 0.75rem; color: #ffeaa7; margin-bottom: 10px; text-align: center;">Todos os prémios estão ocultos! Treina para revelar o conteúdo de cada patamar.</div>
     
     <div class="tiers-container" id="tiers-container">
       <!-- Preenchido via JavaScript -->
@@ -552,7 +547,6 @@
 
   let state = { ...defaultState };
 
-  // Prémios principais de comida por semana
   const foodRewards = {
     1: "Hambúrguer artesanal gourmet com batatas fritas e molho especial! 🍔🍟",
     2: "Pizza napolitana gigante com ingredientes extra à escolha! 🍕🧀",
@@ -560,7 +554,6 @@
     4: "Crepe doce gigante recheado com chocolate e gelado de baunilha! 🥞🍫"
   };
 
-  // Prémios bónus por cada treino extra (3º, 4º e 5º treino)
   const extraRewardsList = [
     { treino: 3, titulo: "3º Treino (Bónus 1)", desc: "Um gelado artesanal duplo 🍦" },
     { treino: 4, titulo: "4º Treino (Bónus 2)", desc: "Um snack doce crocante 🍪" },
@@ -587,7 +580,7 @@
 
   function getWeekNumberForDate(dateStr) {
     let d = new Date(dateStr);
-    let firstWeekStart = new Date(2026, 7, 31); // 31 de Agosto de 2026
+    let firstWeekStart = new Date(2026, 7, 31);
     let mondayOfGiven = getMondayOfDate(d);
     
     let diffTime = mondayOfGiven - firstWeekStart;
@@ -664,9 +657,9 @@
     const container = document.getElementById('tiers-container');
     container.innerHTML = '';
 
-    // 1. Prémio Base (2 Treinos)
+    // 1. Prémio Base (2 Treinos) - Oculto até ser desbloqueado
     let baseUnlocked = treinosNaSemana >= 2;
-    let baseFoodDesc = foodRewards[currentWeekNum] || "Banquete gastronómico especial! 🍽️";
+    let baseFoodDesc = baseUnlocked ? (foodRewards[currentWeekNum] || "Banquete gastronómico especial! 🍽️") : "🔒 <i>Prémio Base Misterioso (Atinge 2 treinos para revelar!)</i>";
     
     let baseDiv = document.createElement('div');
     baseDiv.className = `tier-item ${baseUnlocked ? 'unlocked' : ''}`;
@@ -679,15 +672,18 @@
     `;
     container.appendChild(baseDiv);
 
-    // 2. Prémios Bónus (3º, 4º, 5º Treino)
+    // 2. Prémios Bónus (3º, 4º, 5º Treino) - Ocultos até serem alcançados
     extraRewardsList.forEach(item => {
       let isUnlocked = treinosNaSemana >= item.treino;
       let div = document.createElement('div');
       div.className = `tier-item ${isUnlocked ? 'unlocked' : ''}`;
+      
+      let descriptionText = isUnlocked ? item.desc : "🔒 <i>Prémio Misterioso (Treina para revelar!)</i>";
+      
       div.innerHTML = `
         <div class="tier-info">
           <div class="tier-title">🔥 ${item.titulo}</div>
-          <div class="tier-desc">${item.desc}</div>
+          <div class="tier-desc">${descriptionText}</div>
         </div>
         <div class="tier-status">${isUnlocked ? 'CONQUISTADO! ✨' : `Falta ${item.treino - treinosNaSemana}`}</div>
       `;
@@ -743,7 +739,6 @@
     document.getElementById('total-treinos').innerText = state.totalTreinos;
     document.getElementById('total-metas').innerText = state.totalMetas;
 
-    // Renderizar todos os prémios e estados na tabela visível
     renderTiers(treinosNaSemana, currentWeekNum);
 
     let pct = Math.min(100, Math.round((treinosNaSemana / 2) * 100));
@@ -813,10 +808,10 @@
 
     if (treinosNaSemanaAntes < 2 && treinosNaSemanaDepois === 2 && state.pendingStatus === 'gym') {
       state.totalMetas++;
-      alert(`🎉 PARABÉNS! Atingiste o 2.º treino e desbloqueaste a Meta Base da Semana ${currentWeekNum}! 🍔✨`);
+      alert(`🎉 PARABÉNS! Atingiste o 2.º treino e desbloqueaste o prémio base da Semana ${currentWeekNum}! 🍔✨`);
     } else if (treinosNaSemanaDepois > 2 && state.pendingStatus === 'gym') {
       state.totalMetas++;
-      alert(`🔥 INCRÍVEL! Treino #${treinosNaSemanaDepois} concluído! Desbloqueaste mais um prémio bónus extra! 🎁✨`);
+      alert(`🔥 INCRÍVEL! Treino #${treinosNaSemanaDepois} concluído! Desbloqueaste mais um prémio bónus misterioso! 🎁✨`);
     } else {
       alert(`Registo guardado para ${selectedDateStr}! Continua com força! 💪`);
     }
