@@ -9,16 +9,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f1020;
-      --card: #191b31;
-      --card-border: #32375f;
+      --bg: #0c081e;
+      --card: #181232;
+      --card-border: #3b2b6e;
       --pink: #ff2a85;
       --yellow: #ffd700;
       --green: #00ffcc;
+      --purple: #9b51e0;
       --blue: #00bfff;
       --red: #ff4757;
       --white: #ffffff;
-      --muted: #8c92b3;
+      --muted: #938cb5;
     }
 
     * { box-sizing: border-box; }
@@ -30,10 +31,10 @@
       margin: 0; 
       padding: 12px;
       background-image: 
-        radial-gradient(var(--pink) 1px, transparent 0),
-        radial-gradient(var(--blue) 1px, transparent 0);
-      background-size: 40px 40px;
-      background-position: 0 0, 20px 20px;
+        radial-gradient(var(--purple) 1.5px, transparent 1.5px),
+        radial-gradient(var(--pink) 1.5px, transparent 1.5px);
+      background-size: 32px 32px;
+      background-position: 0 0, 16px 16px;
       background-color: var(--bg);
       -webkit-tap-highlight-color: transparent;
     }
@@ -48,16 +49,16 @@
     
     .card { 
       background: var(--card); 
-      border: 2px dashed var(--pink); 
-      border-radius: 12px; 
-      padding: 14px; 
-      box-shadow: 0 6px 20px rgba(255, 42, 133, 0.2); 
+      border: 3px solid var(--purple); 
+      border-radius: 16px; 
+      padding: 16px; 
+      box-shadow: 0 8px 25px rgba(155, 81, 224, 0.3); 
     }
 
     .card-reward {
-      border: 2px dashed var(--yellow);
-      background: linear-gradient(135deg, #191b31 0%, #2b223a 100%);
-      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.2);
+      border: 3px solid var(--yellow);
+      background: linear-gradient(135deg, #181232 0%, #341f47 100%);
+      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
     }
 
     .main-title {
@@ -65,7 +66,7 @@
       text-align: center;
       font-size: 0.8rem;
       color: var(--yellow);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       text-transform: uppercase;
       line-height: 1.4;
       text-shadow: 2px 2px var(--pink);
@@ -73,10 +74,10 @@
 
     .subtitle-clown {
       text-align: center;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: var(--green);
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .header { 
@@ -89,21 +90,21 @@
     .rules-toggle {
       font-family: 'Press Start 2P', monospace;
       font-size: 0.55rem;
-      color: var(--pink);
+      color: var(--yellow);
       text-align: center;
       padding: 8px;
-      background: rgba(255, 42, 133, 0.1);
-      border: 1px dashed var(--pink);
-      border-radius: 6px;
+      background: rgba(255, 215, 0, 0.1);
+      border: 2px dashed var(--yellow);
+      border-radius: 8px;
       cursor: pointer;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       user-select: none;
     }
 
     .rules-content {
       display: none;
-      font-size: 0.8rem;
-      color: #ffd6e0;
+      font-size: 0.85rem;
+      color: #f3e8ff;
       line-height: 1.4;
       margin-top: 8px;
       padding-top: 8px;
@@ -119,39 +120,44 @@
       margin-bottom: 4px;
     }
 
-    .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px; }
+    .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
     
     .stat-box { 
-      background: rgba(0, 0, 0, 0.5); 
-      border: 1px solid var(--card-border);
-      padding: 8px 4px; 
-      border-radius: 8px; 
+      background: rgba(0, 0, 0, 0.4); 
+      border: 2px solid var(--card-border);
+      padding: 10px 6px; 
+      border-radius: 10px; 
       text-align: center; 
     }
     
     .stat-val { 
       font-family: 'Press Start 2P', monospace;
-      font-size: 0.95rem; 
+      font-size: 1rem; 
       color: var(--white);
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
     .stat-lbl { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; font-weight: 700; }
 
-    /* Grelha de Visibilidade dos 7 Dias */
+    /* Grelha fixa de Segunda a Domingo */
     .week-days-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 4px;
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     .day-cell {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--card-border);
-      border-radius: 6px;
-      padding: 6px 2px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 2px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 2px;
       text-align: center;
+    }
+
+    .day-cell.today {
+      border-color: var(--yellow);
+      background: rgba(255, 215, 0, 0.1);
     }
 
     .day-cell-name {
@@ -161,46 +167,50 @@
       font-weight: 700;
     }
 
+    .day-cell.today .day-cell-name {
+      color: var(--yellow);
+    }
+
     .day-cell-status {
-      font-size: 0.85rem;
-      margin-top: 4px;
+      font-size: 0.9rem;
+      margin-top: 6px;
     }
 
     .progress-bg { 
       background: rgba(0, 0, 0, 0.6); 
-      border: 1px solid var(--card-border);
-      border-radius: 6px; 
-      height: 14px; 
+      border: 2px solid var(--card-border);
+      border-radius: 8px; 
+      height: 16px; 
       overflow: hidden; 
-      margin-top: 8px; 
+      margin-top: 10px; 
       padding: 2px;
     }
     
     .progress-fill { 
-      background: linear-gradient(90deg, var(--pink), var(--yellow)); 
+      background: linear-gradient(90deg, var(--purple), var(--green)); 
       height: 100%; 
       width: 0%; 
-      border-radius: 4px;
+      border-radius: 5px;
       transition: width 0.4s ease; 
     }
 
     .btn-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-top: 6px;
+      gap: 10px;
+      margin-top: 8px;
     }
 
     .btn { 
       font-family: 'Rajdhani', sans-serif;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       background: rgba(255, 255, 255, 0.03); 
       color: var(--white); 
       border: 2px solid var(--card-border); 
-      padding: 8px 6px; 
-      border-radius: 8px; 
+      padding: 10px 6px; 
+      border-radius: 10px; 
       font-weight: 700; 
       cursor: pointer; 
       width: 100%; 
@@ -210,15 +220,15 @@
       justify-content: center;
       text-align: center;
       line-height: 1.2;
-      min-height: 56px;
+      min-height: 60px;
       transition: all 0.2s;
       opacity: 0.4;
     }
 
     .btn.active {
       opacity: 1 !important;
-      transform: scale(1.02);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+      transform: scale(1.03);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     }
     
     .btn:hover:not(:disabled) { opacity: 0.9; }
@@ -228,24 +238,24 @@
     .btn-red { 
       border-color: var(--red) !important; 
       color: var(--red) !important; 
-      background: rgba(255, 71, 87, 0.08) !important;
+      background: rgba(255, 71, 87, 0.1) !important;
     }
     
     .btn-next { 
       font-family: 'Press Start 2P', monospace;
       font-size: 0.65rem;
-      background: var(--yellow); 
+      background: linear-gradient(135deg, var(--yellow), #ff9f43); 
       color: #000; 
       border: none;
-      margin-top: 12px; 
-      padding: 14px; 
+      margin-top: 14px; 
+      padding: 16px; 
       font-weight: bold;
-      min-height: 48px;
+      min-height: 50px;
       width: 100%;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       opacity: 1;
-      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
       transition: transform 0.1s;
     }
 
@@ -255,17 +265,17 @@
       font-family: 'Press Start 2P', monospace;
       font-size: 0.6rem; 
       color: var(--green); 
-      margin-bottom: 6px; 
+      margin-bottom: 8px; 
       text-transform: uppercase; 
     }
     
     .status-badge { 
       font-family: 'Press Start 2P', monospace;
-      font-size: 0.55rem; 
-      padding: 4px 8px; 
-      border-radius: 4px; 
-      background: rgba(0, 255, 204, 0.1); 
-      border: 1px solid var(--green);
+      font-size: 0.6rem; 
+      padding: 6px 10px; 
+      border-radius: 6px; 
+      background: rgba(0, 255, 204, 0.15); 
+      border: 2px solid var(--green);
       color: var(--green);
       display: inline-block; 
     }
@@ -280,8 +290,8 @@
 
     .reset-link {
       text-align: center;
-      margin-top: 10px;
-      font-size: 0.7rem;
+      margin-top: 12px;
+      font-size: 0.75rem;
       color: var(--muted);
       cursor: pointer;
       text-decoration: underline;
@@ -290,10 +300,10 @@
 
     .sync-status {
       font-family: 'Press Start 2P', monospace;
-      font-size: 0.5rem;
+      font-size: 0.55rem;
       text-align: center;
       color: var(--muted);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .date-picker-box {
@@ -301,10 +311,10 @@
       align-items: center;
       justify-content: space-between;
       background: rgba(0,0,0,0.5);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 6px 10px;
-      margin-bottom: 10px;
+      border: 2px solid var(--card-border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin-bottom: 12px;
     }
 
     .date-picker-box input {
@@ -312,55 +322,54 @@
       border: none;
       color: var(--white);
       font-family: 'Rajdhani', sans-serif;
-      font-size: 0.95rem;
+      font-size: 1rem;
       font-weight: bold;
       color-scheme: dark;
     }
 
     .daily-summary-panel {
-      background: rgba(0, 255, 204, 0.1);
-      border: 1px solid var(--green);
-      border-radius: 8px;
-      padding: 8px;
-      margin-top: 10px;
+      background: rgba(0, 255, 204, 0.12);
+      border: 2px solid var(--green);
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 12px;
       text-align: center;
       display: none;
     }
 
     .daily-summary-title {
       font-family: 'Press Start 2P', monospace;
-      font-size: 0.55rem;
+      font-size: 0.6rem;
       color: var(--green);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .daily-summary-details {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--white);
       line-height: 1.3;
     }
 
     .lock-notice {
       color: var(--red);
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       text-align: center;
-      margin-top: 6px;
+      margin-top: 8px;
       font-weight: bold;
       display: none;
     }
 
-    /* Caixa de Prémios Em Destaque */
     .reward-box-title {
       font-family: 'Press Start 2P', monospace;
-      font-size: 0.65rem;
+      font-size: 0.7rem;
       color: var(--yellow);
       text-align: center;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       text-transform: uppercase;
     }
 
     .reward-desc {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       text-align: center;
       color: #ffeaa7;
       font-weight: 700;
@@ -371,30 +380,30 @@
 
 <div class="container">
 
-  <!-- PAINEL DE PROGRESSO & PALHAÇADA -->
+  <!-- PAINEL DE PROGRESSO -->
   <div class="card">
-    <div class="main-title">🤡 Ana Gym Quest 🎪</div>
-    <div class="subtitle-clown">"Menos palhaçadas, mais ferro!" 💪✨</div>
+    <div class="main-title">🎪 Ana Gym Quest 🏋️</div>
+    <div class="subtitle-clown">"Menos palhaçadas, mais ferro!" ✨💪</div>
     <div class="sync-status" id="sync-status">⚡ A LIGAR AO CIRCO...</div>
     
     <!-- Secção de Regras -->
-    <div class="rules-toggle" id="rules-toggle">📜 MANUAL DA PALHAÇA (REGRAS) ▼</div>
+    <div class="rules-toggle" id="rules-toggle">📜 MANUAL DA PALHAÇA ▼</div>
     <div class="rules-content" id="rules-content">
       <ul>
-        <li><b>Regra 1:</b> Só vale um carimbo por dia! Nada de inventar treinos duplos para compensar a preguiça.</li>
-        <li><b>Regra 2:</b> 2 treinos por semana e ganhas o direito de reclamar o teu prémio épico.</li>
-        <li><b>Regra 3:</b> Se faltar ao ginásio para comer pipocas no sofá, regista a falta com orgulho! 🍿</li>
+        <li><b>Ciclo Fixo:</b> A semana corre sempre de Segunda a Domingo. Só muda na próxima Segunda-feira!</li>
+        <li><b>Regra do Carimbo:</b> Apenas 1 registo por dia. Nada de batota!</li>
+        <li><b>Meta:</b> Faz exatamente 2 treinos até Domingo para desbloquear o prémio épico.</li>
       </ul>
     </div>
 
-    <div class="header" id="week-title" style="margin-top: 6px;">SEMANA 1</div>
-    <div style="text-align: center; margin-top: 4px;">
+    <div class="header" id="week-title" style="margin-top: 8px;">SEMANA 1</div>
+    <div style="text-align: center; margin-top: 6px;">
       <span class="status-badge" id="goal-tracker">META: 0 / 2 TREINOS</span>
     </div>
 
-    <!-- Visibilidade dos 7 Dias -->
-    <div style="margin-top: 10px;">
-      <div style="font-size: 0.65rem; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; color: var(--pink);">🎪 O CIRCO DOS 7 DIAS:</div>
+    <!-- Visibilidade dos 7 Dias da Semana (Segunda a Domingo) -->
+    <div style="margin-top: 12px;">
+      <div style="font-size: 0.65rem; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; color: var(--pink);">🗓️ ESTE CICLO (SEG → DOM):</div>
       <div class="week-days-grid" id="week-days-grid">
         <!-- Preenchido via JavaScript -->
       </div>
@@ -413,12 +422,12 @@
       </div>
       <div class="stat-box">
         <div class="stat-val" id="total-metas" style="color: var(--yellow);">0</div>
-        <div class="stat-lbl">Prémios Conquistados</div>
+        <div class="stat-lbl">Prémios Vencidos</div>
       </div>
     </div>
 
     <!-- Barra de Progresso -->
-    <div style="margin-top: 10px;">
+    <div style="margin-top: 12px;">
       <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700;">
         <span>ENERGIA PARA O PRÉMIO</span>
         <span id="progress-text" style="color: var(--yellow);">0%</span>
@@ -429,17 +438,17 @@
     </div>
   </div>
 
-  <!-- CAIXA DE PRÉMIOS MOTIVACIONAIS -->
+  <!-- CAIXA DE PRÉMIOS -->
   <div class="card card-reward">
-    <div class="reward-box-title">🎁 O PRÉMIO DA SEMANA 🎁</div>
-    <div class="reward-desc" id="weekly-reward-text">Completa os 2 treinos desta semana para desbloquear: <b>Massagem nas costas + Jantar fora sem culpa!</b> 🍔💆‍♀️</div>
+    <div class="reward-box-title">🎁 PRÉMIO DESTA SEMANA 🎁</div>
+    <div class="reward-desc" id="weekly-reward-text">Completa os 2 treinos até Domingo para desbloquear: <b>Massagem relaxante + Jantar fora sem culpa!</b> 🍔💆‍♀️</div>
   </div>
 
   <!-- REGISTO DIÁRIO -->
   <div class="card">
     <div class="section-title">Registar Dia (Máx. 1 por dia)</div>
     <div class="date-picker-box">
-      <span style="font-size: 0.8rem; font-weight: 700;">📅 DATA:</span>
+      <span style="font-size: 0.85rem; font-weight: 700;">📅 DATA:</span>
       <input type="date" id="log-date-picker" min="2026-09-01">
     </div>
     
@@ -483,17 +492,14 @@
   const docRef = doc(db, "challenges", DOC_ID);
 
   const defaultState = {
-    treinosNaSemana: 0,
     totalTreinos: 0,
     totalMetas: 0,
-    semanaAtual: 1,
     dailyLogs: {},
     pendingStatus: 'gym'
   };
 
   let state = { ...defaultState };
 
-  // Lista de prémios divertidos por semana para motivar a Ana
   const funnyRewards = {
     1: "Massagem relaxante nas costas + O teu prato favorito sem olhar às calorias! 🍕💆‍♀️",
     2: "Sessão de cinema com pipocas gigantes + Direito a mandar anedotas secas o dia todo! 🍿🤡",
@@ -512,6 +518,44 @@
     return date.toLocaleDateString('en-CA', { timeZone: 'Europe/Lisbon' });
   }
 
+  // Devolve a segunda-feira da semana de uma determinada data
+  function getMondayOfDate(d) {
+    let date = new Date(d);
+    let day = date.getDay();
+    let diff = date.getDate() - day + (day === 0 ? -6 : 1); // Ajusta se for domingo
+    return new Date(date.setDate(diff));
+  }
+
+  // Calcula a semana atual com base na 1ª segunda-feira (ex: 31 de agosto ou 7 de setembro de 2026)
+  function getWeekNumberForDate(dateStr) {
+    let d = new Date(dateStr);
+    let firstWeekStart = new Date(2026, 7, 31); // 31 de Agosto de 2026 (Segunda-feira)
+    let mondayOfGiven = getMondayOfDate(d);
+    
+    let diffTime = mondayOfGiven - firstWeekStart;
+    let diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+    let weekNum = Math.floor(diffDays / 7) + 1;
+    return Math.max(1, weekNum);
+  }
+
+  // Conta treinos numa semana específica (Segunda a Domingo)
+  function countGymsInWeek(weekNum) {
+    let firstWeekStart = new Date(2026, 7, 31);
+    let start = new Date(firstWeekStart);
+    start.setDate(start.getDate() + (weekNum - 1) * 7);
+
+    let count = 0;
+    for (let i = 0; i < 7; i++) {
+      let checkDate = new Date(start);
+      checkDate.setDate(checkDate.getDate() + i);
+      let dateStr = formatDateLocal(checkDate);
+      if (state.dailyLogs && state.dailyLogs[dateStr] && state.dailyLogs[dateStr].status === 'gym') {
+        count++;
+      }
+    }
+    return count;
+  }
+
   function getNextSequentialDate() {
     let baseDate = new Date(2026, 8, 1);
     while (true) {
@@ -523,23 +567,29 @@
     }
   }
 
-  function renderWeekDays() {
+  // Renderiza a grelha fixa de Segunda a Domingo correspondente à semana do dia selecionado no DatePicker
+  function renderWeekDays(selectedDateStr) {
     const gridEl = document.getElementById('week-days-grid');
     gridEl.innerHTML = '';
 
-    let nextSeq = getNextSequentialDate();
-    let d = new Date(nextSeq);
-    d.setDate(d.getDate() - 3); 
+    let selectedDate = new Date(selectedDateStr);
+    let monday = getMondayOfDate(selectedDate);
+    let todayStr = getPTDateString();
 
-    const shortDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    const shortDays = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
 
     for (let i = 0; i < 7; i++) {
+      let d = new Date(monday);
+      d.setDate(d.getDate() + i);
       let dateStr = formatDateLocal(d);
-      let dayName = shortDays[d.getDay()];
+      let dayName = shortDays[i];
       let log = state.dailyLogs && state.dailyLogs[dateStr];
 
       let cell = document.createElement('div');
       cell.className = 'day-cell';
+      if (dateStr === todayStr) {
+        cell.classList.add('today');
+      }
       
       let statusIcon = '·';
       if (log) {
@@ -551,8 +601,6 @@
         <div class="day-cell-status">${statusIcon}</div>
       `;
       gridEl.appendChild(cell);
-
-      d.setDate(d.getDate() + 1);
     }
   }
 
@@ -604,39 +652,41 @@
   }
 
   function updateUI() {
-    document.getElementById('week-title').innerText = `SEMANA ${state.semanaAtual}`;
-    document.getElementById('goal-tracker').innerText = `META: ${state.treinosNaSemana} / 2 TREINOS`;
+    let selectedDateStr = document.getElementById('log-date-picker').value;
+    let currentWeekNum = getWeekNumberForDate(selectedDateStr);
+    let treinosNaSemana = countGymsInWeek(currentWeekNum);
+
+    document.getElementById('week-title').innerText = `SEMANA ${currentWeekNum}`;
+    document.getElementById('goal-tracker').innerText = `META: ${treinosNaSemana} / 2 TREINOS`;
     document.getElementById('total-treinos').innerText = state.totalTreinos;
     document.getElementById('total-metas').innerText = state.totalMetas;
 
-    // Atualiza o texto do prémio consoante a semana atual
-    let rewardText = funnyRewards[state.semanaAtual] || "Um prémio surpresa gigante escolhido a dedo! 🏆✨";
-    document.getElementById('weekly-reward-text').innerHTML = `Completa os 2 treinos desta semana para desbloquear:<br><span style="color: var(--white);">${rewardText}</span>`;
+    let rewardText = funnyRewards[currentWeekNum] || "Um prémio surpresa gigante escolhido a dedo! 🏆✨";
+    document.getElementById('weekly-reward-text').innerHTML = `Completa os 2 treinos até Domingo para desbloquear:<br><span style="color: var(--white);">${rewardText}</span>`;
 
-    let pct = Math.min(100, Math.round((state.treinosNaSemana / 2) * 100));
+    let pct = Math.min(100, Math.round((treinosNaSemana / 2) * 100));
     document.getElementById('progress-text').innerText = `${pct}%`;
     document.getElementById('progress-bar').style.width = `${pct}%`;
 
-    renderWeekDays();
+    renderWeekDays(selectedDateStr);
 
-    let selectedDate = document.getElementById('log-date-picker').value;
     let nextSequential = getNextSequentialDate();
     let summaryPanel = document.getElementById('daily-summary-panel');
     let lockNotice = document.getElementById('lock-notice');
     let controlsContainer = document.getElementById('log-controls-container');
 
-    let isAlreadyLogged = !!(state.dailyLogs && state.dailyLogs[selectedDate]);
+    let isAlreadyLogged = !!(state.dailyLogs && state.dailyLogs[selectedDateStr]);
 
     if (isAlreadyLogged) {
-      let log = state.dailyLogs[selectedDate];
+      let log = state.dailyLogs[selectedDateStr];
       summaryPanel.style.display = 'block';
       lockNotice.style.display = 'none';
       controlsContainer.style.display = 'none';
 
       let statusText = log.status === 'gym' ? '🏋️ Treino Feito' : '🍿 Falta / Descanso';
-      document.getElementById('summary-date-title').innerText = `REGISTO JÁ FEITO (${selectedDate})`;
+      document.getElementById('summary-date-title').innerText = `REGISTO JÁ FEITO (${selectedDateStr})`;
       document.getElementById('summary-details').innerHTML = `<b>Estado:</b> ${statusText}<br><span style="font-size: 0.75rem; color: var(--muted);">Já não dás tanga neste dia, palhaça! Só um registo por dia.</span>`;
-    } else if (selectedDate > nextSequential) {
+    } else if (selectedDateStr > nextSequential) {
       summaryPanel.style.display = 'none';
       lockNotice.style.display = 'block';
       lockNotice.innerText = `⚠️ Ó Ana! Tens de registar primeiro o dia ${nextSequential} antes de saltar adiante!`;
@@ -668,7 +718,6 @@
     }
 
     if (state.pendingStatus === 'gym') {
-      state.treinosNaSemana++;
       state.totalTreinos++;
     }
 
@@ -676,13 +725,14 @@
       status: state.pendingStatus
     };
 
-    if (state.treinosNaSemana >= 2) {
+    let currentWeekNum = getWeekNumberForDate(selectedDateStr);
+    let treinosNaSemana = countGymsInWeek(currentWeekNum);
+
+    if (treinosNaSemana === 2 && state.pendingStatus === 'gym') {
       state.totalMetas++;
-      alert(`🎉 INCRÍVEL! Semana ${state.semanaAtual} batida com 2/2 treinos! Podes reclamar o teu prémio épico agora mesmo! 🏆🍔`);
-      state.treinosNaSemana = 0;
-      state.semanaAtual++;
+      alert(`🎉 INCRÍVEL! Meta da Semana ${currentWeekNum} batida com 2/2 treinos! Podes reclamar o teu prémio épico agora mesmo! 🏆🍔`);
     } else {
-      alert(`Registo guardado para ${selectedDateStr}! Falta apenas mais 1 treino para desbloquear o prémio desta semana. Força nisso! 💪`);
+      alert(`Registo guardado para ${selectedDateStr}! Falta ${Math.max(0, 2 - treinosNaSemana)} treino para atingir a meta desta semana. Força nisso! 💪`);
     }
 
     resetSelectionToDefaults();
@@ -695,7 +745,7 @@
     const content = document.getElementById('rules-content');
     const isVisible = content.style.display === 'block';
     content.style.display = isVisible ? 'none' : 'block';
-    document.getElementById('rules-toggle').innerText = isVisible ? '📜 MANUAL DA PALHAÇÇA (REGRAS) ▼' : '📜 MANUAL DA PALHAÇ̧A (REGRAS) ▲';
+    document.getElementById('rules-toggle').innerText = isVisible ? '📜 MANUAL DA PALHAÇA ▼' : '📜 MANUAL DA PALHAÇA ▲';
   };
 
   document.getElementById('log-date-picker').addEventListener('change', () => {
