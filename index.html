@@ -426,12 +426,12 @@
     <div class="main-title">🎵 Ana Gym Quest: Castelos na Areia 🌊</div>
     <div class="subtitle-fun">🎶 <i>"Há um mar à solta, nas areias deste mar..."</i> — Rumo ao ferro! 🏋️</div>
     
-    <div class="rules-toggle" id="rules-toggle">📜 REGRAS DA SUECA & DOS SANTAMARIA ▼</div>
+    <div class="rules-toggle" id="rules-toggle">📜 REGRAS DO RITMO & DOS SANTAMARIA ▼</div>
     <div class="rules-content" id="rules-content">
       <ul>
-        <li><b>Ciclo Fixo (De 🂡 a 🂮):</b> A semana corre de Segunda a Domingo ao som de um grande êxito.</li>
+        <li><b>Ciclo Semanal:</b> A semana corre de Segunda a Domingo ao som de um grande êxito dos Santamaria.</li>
         <li><b>Registo Livre:</b> Podes registar qualquer dia em falta livremente, sem ordem cronológica obrigatória.</li>
-        <li><b>O Mínimo e os Bónus:</b> Com <i>um mar à solta nas areias deste mar</i>, 2 treinos fecham o mínimo e dão o prémio base. Mas ir mais além garante sempre **um prémio bónus surpresa** em cada treino extra! 🌊🃏</li>
+        <li><b>O Mínimo e os Bónus:</b> Com <i>um mar à solta nas areias deste mar</i>, 2 treinos fecham o mínimo e dão o prémio base. Mas ir mais além garante sempre **um prémio bónus surpresa** em cada treino extra! 🌊🎵</li>
       </ul>
     </div>
 
@@ -474,7 +474,7 @@
 
   <!-- CAIXA DE PRÉMIOS -->
   <div class="card card-reward">
-    <div class="reward-box-title">🎴 MESA DOS PRÉMIOS & SANTAMARIA</div>
+    <div class="reward-box-title">🌊 MESA DOS PRÉMIOS & SANTAMARIA</div>
     <div style="font-size: 0.75rem; color: #ffeaa7; margin-bottom: 10px; text-align: center;">Solta o mundo à tua volta e levanta os pesos rumo ao banquete! ✨</div>
     
     <div class="tiers-container" id="tiers-container">
@@ -545,8 +545,8 @@
 
   const extraRewardsList = [
     { treino: 3, titulo: "🌊 3º Treino (Trunfo Mar à Solta)", desc: "🍦 Um gelado artesanal duplo com sabor a verão" },
-    { treino: 4, titulo: "🂡 4º Treino (Trunfo Areias do Mar)", desc: "🍫 Um snack doce crocante e delicioso" },
-    { treino: 5, titulo: "👑 5º Treino (Capote Mareia Cheia)", desc: "☕ Um café gourmet com pastel de nata" }
+    { treino: 4, titulo: "🎵 4º Treino (Trunfo Areias do Mar)", desc: "🍫 Um snack doce crocante e delicioso" },
+    { treino: 5, titulo: "👑 5º Treino (Bónus Mareia Cheia)", desc: "☕ Um café gourmet com pastel de nata" }
   ];
 
   function formatDateLocal(d) {
@@ -791,7 +791,7 @@
     const content = document.getElementById('rules-content');
     const isVisible = content.style.display === 'block';
     content.style.display = isVisible ? 'none' : 'block';
-    document.getElementById('rules-toggle').innerText = isVisible ? '📜 REGRAS DA SUECA & DOS SANTAMARIA ▼' : '📜 REGRAS DA SUECA & DOS SANTAMARIA ▲';
+    document.getElementById('rules-toggle').innerText = isVisible ? '📜 REGRAS DO RITMO & DOS SANTAMARIA ▼' : '📜 REGRAS DO RITMO & DOS SANTAMARIA ▲';
   };
 
   document.getElementById('log-date-picker').addEventListener('change', () => {
